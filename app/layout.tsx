@@ -1,8 +1,9 @@
+import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Dashboard Pelan Strategik Organisasi PSUKPP',
-  description: 'Sistem Pemantauan Prestasi PSO PSUKPP',
+  title: 'Dashboard PSO PSUKPP',
+  description: 'Pelan Strategik Organisasi Pejabat Setiausaha Kerajaan Negeri Pulau Pinang',
 };
 
 export default function RootLayout({
@@ -12,9 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ms">
-      <body className="bg-slate-100 text-slate-900 antialiased">
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
