@@ -12,6 +12,7 @@ import {
   addDoc 
 } from 'firebase/firestore';
 
+// --- DATA ASAL PRESTASI PSO PSUKPP ---
 const defaultKpiData = [
   {
     id: 'KPI-01',
@@ -349,25 +350,19 @@ export default function PSUKPPPage() {
       darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-100 text-slate-900'
     }`}>
       
-      {/* HEADER UTAMA BERSAMA EMBEDDED LOGO VEKTOR RASMI PULAU PINANG */}
+      {/* HEADER UTAMA BERSAMA JATA NEGERI PULAU PINANG */}
       <header className={`${
         darkMode ? 'bg-slate-800 border-slate-700' : 'bg-blue-900 border-blue-950'
       } text-white border-b sticky top-0 z-30 shadow-md`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-3">
-            
-            {/* EMBED LOGO VEKTOR PULAU PINANG (INDEPENDENT) */}
-            <div className="p-1.5 bg-yellow-400 rounded-lg shadow-sm flex items-center justify-center">
-              <svg className="h-10 w-10 text-blue-950" viewBox="0 0 100 100">
-                <rect x="5" y="5" width="90" height="90" rx="15" fill="#002B7F" stroke="#FFCC00" strokeWidth="4"/>
-                <path d="M15,35 L85,35 M15,48 L85,48 M15,61 L85,61" stroke="#FFFFFF" strokeWidth="6" strokeLinecap="round"/>
-                <circle cx="50" cy="50" r="24" fill="#FFCC00" stroke="#002B7F" strokeWidth="3"/>
-                <path d="M50,32 L58,48 L42,48 Z" fill="#008000"/>
-                <path d="M50,40 L62,60 L38,60 Z" fill="#006600"/>
-                <rect x="47" y="60" width="6" height="8" fill="#5c3a21"/>
-              </svg>
+            <div className="h-14 w-auto flex items-center justify-center p-0.5 bg-white/10 rounded-lg backdrop-blur-xs">
+              <img 
+                src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Coat_of_arms_of_Penang.svg" 
+                alt="Jata Negeri Pulau Pinang" 
+                className="h-12 w-auto object-contain drop-shadow-md"
+              />
             </div>
-
             <div>
               <div className="text-xs font-bold tracking-wider text-yellow-300 uppercase">Pejabat Setiausaha Kerajaan Negeri Pulau Pinang</div>
               <h1 className="text-lg sm:text-xl font-extrabold leading-tight tracking-wide text-white">DASHBOARD PELAN STRATEGIK ORGANISASI (PSO)</h1>
