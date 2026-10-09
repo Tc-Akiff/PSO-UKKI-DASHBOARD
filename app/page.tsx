@@ -348,18 +348,26 @@ export default function PSUKPPPage() {
     <div className={`min-h-screen transition-colors duration-200 ${
       darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-100 text-slate-900'
     }`}>
+      
+      {/* HEADER UTAMA BERSAMA EMBEDDED LOGO VEKTOR RASMI PULAU PINANG */}
       <header className={`${
         darkMode ? 'bg-slate-800 border-slate-700' : 'bg-blue-900 border-blue-950'
       } text-white border-b sticky top-0 z-30 shadow-md`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-3">
-            <div className="h-12 w-auto flex items-center justify-center overflow-hidden rounded-lg bg-white/10 p-1">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Coat_of_arms_of_Penang.svg" 
-                alt="Logo Kerajaan Negeri Pulau Pinang" 
-                className="h-12 w-auto max-h-12 object-contain drop-shadow-md"
-              />
+            
+            {/* EMBED LOGO VEKTOR PULAU PINANG (INDEPENDENT) */}
+            <div className="p-1.5 bg-yellow-400 rounded-lg shadow-sm flex items-center justify-center">
+              <svg className="h-10 w-10 text-blue-950" viewBox="0 0 100 100">
+                <rect x="5" y="5" width="90" height="90" rx="15" fill="#002B7F" stroke="#FFCC00" strokeWidth="4"/>
+                <path d="M15,35 L85,35 M15,48 L85,48 M15,61 L85,61" stroke="#FFFFFF" strokeWidth="6" strokeLinecap="round"/>
+                <circle cx="50" cy="50" r="24" fill="#FFCC00" stroke="#002B7F" strokeWidth="3"/>
+                <path d="M50,32 L58,48 L42,48 Z" fill="#008000"/>
+                <path d="M50,40 L62,60 L38,60 Z" fill="#006600"/>
+                <rect x="47" y="60" width="6" height="8" fill="#5c3a21"/>
+              </svg>
             </div>
+
             <div>
               <div className="text-xs font-bold tracking-wider text-yellow-300 uppercase">Pejabat Setiausaha Kerajaan Negeri Pulau Pinang</div>
               <h1 className="text-lg sm:text-xl font-extrabold leading-tight tracking-wide text-white">DASHBOARD PELAN STRATEGIK ORGANISASI (PSO)</h1>
@@ -417,13 +425,16 @@ export default function PSUKPPPage() {
         </div>
       </header>
 
+      {/* KANDUNGAN UTAMA */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
         {loading ? (
           <div className="p-12 text-center text-slate-500 font-bold">
             🔄 Memuatkan pangkalan data Firebase Firestore...
           </div>
         ) : (
           <>
+            {/* BAR KAWALAN ADMIN */}
             {userRole !== 'PUBLIC' && (
               <div className={`p-4 rounded-xl border shadow-sm flex flex-wrap justify-between items-center gap-3 ${
                 darkMode ? 'bg-slate-800 border-amber-500/40' : 'bg-amber-50 border-amber-300'
@@ -464,6 +475,7 @@ export default function PSUKPPPage() {
               </div>
             )}
 
+            {/* 1. KAD METRIK RINGKASAN PRESTASI */}
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               <div className={`p-4 rounded-xl border shadow-sm flex flex-col justify-between ${
                 darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
@@ -550,6 +562,7 @@ export default function PSUKPPPage() {
               </div>
             </section>
 
+            {/* 2. PANEL FILTER & CARIAN */}
             <section className={`p-4 rounded-xl border shadow-sm ${
               darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
             }`}>
@@ -640,6 +653,7 @@ export default function PSUKPPPage() {
               </div>
             </section>
 
+            {/* 3. PAPARAN GRAF VISUAL */}
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className={`p-5 rounded-xl border shadow-sm ${
                 darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
@@ -760,6 +774,7 @@ export default function PSUKPPPage() {
               </div>
             </section>
 
+            {/* 4. JADUAL KPI INTERAKTIF */}
             <section className={`rounded-xl border shadow-sm overflow-hidden ${
               darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
             }`}>
@@ -884,6 +899,7 @@ export default function PSUKPPPage() {
                               </td>
                             </tr>
 
+                            {/* ROW INLINE DETAIL */}
                             {isExpanded && (
                               <tr className={darkMode ? 'bg-slate-900' : 'bg-blue-50'}>
                                 <td colSpan={7} className="p-4 border-t border-b border-blue-300">
@@ -973,6 +989,7 @@ export default function PSUKPPPage() {
         )}
       </main>
 
+      {/* MODAL LOG AUDIT */}
       {showLogModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
           <div className={`w-full max-w-xl p-6 rounded-2xl shadow-xl border max-h-[80vh] overflow-y-auto ${
@@ -1002,6 +1019,7 @@ export default function PSUKPPPage() {
         </div>
       )}
 
+      {/* MODAL LOG MASUK ADMIN */}
       {showLoginModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
           <div className={`w-full max-w-md p-6 rounded-2xl shadow-xl border ${
@@ -1068,6 +1086,7 @@ export default function PSUKPPPage() {
         </div>
       )}
 
+      {/* MODAL BORANG TAMBAH / EDIT KPI */}
       {showFormModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
           <div className={`w-full max-w-2xl p-6 rounded-2xl shadow-xl border max-h-[90vh] overflow-y-auto ${
