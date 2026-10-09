@@ -349,8 +349,6 @@ export default function PSUKPPPage() {
     <div className={`min-h-screen transition-colors duration-200 ${
       darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-100 text-slate-900'
     }`}>
-      
-      {/* HEADER UTAMA BERSAMA LOGO PNG PENANG */}
       <header className={`${
         darkMode ? 'bg-slate-800 border-slate-700' : 'bg-blue-900 border-blue-950'
       } text-white border-b sticky top-0 z-30 shadow-md`}>
@@ -361,7 +359,6 @@ export default function PSUKPPPage() {
               alt="Logo Kerajaan Negeri Pulau Pinang" 
               className="h-12 w-auto object-contain drop-shadow-md"
               onError={(e: any) => {
-                // Fallback jika logo fail dimuat naik
                 e.target.onerror = null; 
                 e.target.src = "https://upload.wikimedia.org/wikipedia/commons/e/e0/Coat_of_arms_of_Penang.svg";
               }}
@@ -423,7 +420,6 @@ export default function PSUKPPPage() {
         </div>
       </header>
 
-      {/* KANDUNGAN UTAMA */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
         {loading ? (
@@ -432,7 +428,6 @@ export default function PSUKPPPage() {
           </div>
         ) : (
           <>
-            {/* BAR KAWALAN ADMIN */}
             {userRole !== 'PUBLIC' && (
               <div className={`p-4 rounded-xl border shadow-sm flex flex-wrap justify-between items-center gap-3 ${
                 darkMode ? 'bg-slate-800 border-amber-500/40' : 'bg-amber-50 border-amber-300'
@@ -473,7 +468,6 @@ export default function PSUKPPPage() {
               </div>
             )}
 
-            {/* 1. KAD METRIK RINGKASAN PRESTASI */}
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
               <div className={`p-4 rounded-xl border shadow-sm flex flex-col justify-between ${
                 darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
@@ -560,7 +554,6 @@ export default function PSUKPPPage() {
               </div>
             </section>
 
-            {/* 2. PANEL FILTER & CARIAN */}
             <section className={`p-4 rounded-xl border shadow-sm ${
               darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
             }`}>
@@ -651,7 +644,6 @@ export default function PSUKPPPage() {
               </div>
             </section>
 
-            {/* 3. PAPARAN GRAF VISUAL */}
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className={`p-5 rounded-xl border shadow-sm ${
                 darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
@@ -772,7 +764,6 @@ export default function PSUKPPPage() {
               </div>
             </section>
 
-            {/* 4. JADUAL KPI INTERAKTIF */}
             <section className={`rounded-xl border shadow-sm overflow-hidden ${
               darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
             }`}>
@@ -897,7 +888,6 @@ export default function PSUKPPPage() {
                               </td>
                             </tr>
 
-                            {/* ROW INLINE DETAIL */}
                             {isExpanded && (
                               <tr className={darkMode ? 'bg-slate-900' : 'bg-blue-50'}>
                                 <td colSpan={7} className="p-4 border-t border-b border-blue-300">
@@ -987,7 +977,6 @@ export default function PSUKPPPage() {
         )}
       </main>
 
-      {/* MODAL LOG AUDIT */}
       {showLogModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
           <div className={`w-full max-w-xl p-6 rounded-2xl shadow-xl border max-h-[80vh] overflow-y-auto ${
@@ -1017,7 +1006,6 @@ export default function PSUKPPPage() {
         </div>
       )}
 
-      {/* MODAL LOG MASUK ADMIN */}
       {showLoginModal && (
         <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
           <div className={`w-full max-w-md p-6 rounded-2xl shadow-xl border ${
@@ -1061,4 +1049,186 @@ export default function PSUKPPPage() {
 
               <div className="p-2.5 rounded-lg bg-blue-50 text-[11px] text-blue-950 border border-blue-200 font-bold space-y-1">
                 <div>🔑 <strong>Super Admin:</strong> admin / admin123</div>
-                <div>🔑 <strong>Admin BTM:</strong> admin
+                <div>🔑 <strong>Admin BTM:</strong> admin_btm / admin123</div>
+              </div>
+
+              <div className="flex justify-end space-x-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowLoginModal(false)}
+                  className="px-4 py-2 text-xs font-bold rounded-lg bg-slate-200 text-slate-900"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-xs font-bold rounded-lg bg-blue-900 text-white"
+                >
+                  Log Masuk
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showFormModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className={`w-full max-w-2xl p-6 rounded-2xl shadow-xl border max-h-[90vh] overflow-y-auto ${
+            darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-white border-slate-300 text-slate-900'
+          }`}>
+            <div className="flex justify-between items-center pb-3 border-b border-slate-200">
+              <h3 className="text-base font-black">
+                {editingKpi ? `✏️ Sunting KPI (${formData.id})` : '➕ Tambah KPI Baharu'}
+              </h3>
+              <button onClick={() => setShowFormModal(false)} className="text-slate-500 font-bold">✕</button>
+            </div>
+
+            <form onSubmit={handleFormSubmit} className="space-y-4 mt-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block font-bold mb-1">Kod KPI</label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.id}
+                    onChange={(e) => setFormData({ ...formData, id: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border font-mono font-bold bg-slate-50 border-slate-400 text-slate-900"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold mb-1">Bahagian</label>
+                  <select
+                    value={formData.bahagian}
+                    onChange={(e) => setFormData({ ...formData, bahagian: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border font-bold bg-slate-50 border-slate-400 text-slate-900"
+                  >
+                    <option value="BTM">BTM - Teknologi Maklumat</option>
+                    <option value="BKP">BKP - Khidmat Pengurusan</option>
+                    <option value="BPEN">BPEN - Perancang Ekonomi</option>
+                    <option value="BKT">BKT - Kerajaan Tempatan</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold mb-1">Penyataan KPI / Inisiatif</label>
+                <textarea
+                  required
+                  rows={2}
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full px-3 py-2 rounded-lg border font-bold bg-slate-50 border-slate-400 text-slate-900"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block font-bold mb-1">Sasaran (%)</label>
+                  <input
+                    type="number"
+                    min="0" max="100" required
+                    value={formData.sasaran}
+                    onChange={(e) => setFormData({ ...formData, sasaran: Number(e.target.value) })}
+                    className="w-full px-3 py-2 rounded-lg border font-bold bg-slate-50 border-slate-400 text-slate-900"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold mb-1">Pencapaian Semasa (%)</label>
+                  <input
+                    type="number"
+                    min="0" max="100" required
+                    value={formData.pencapaian}
+                    onChange={(e) => setFormData({ ...formData, pencapaian: Number(e.target.value) })}
+                    className="w-full px-3 py-2 rounded-lg border font-bold bg-slate-50 border-slate-400 text-slate-900"
+                  />
+                </div>
+
+                <div>
+                  <label className="block font-bold mb-1">Status Prestasi</label>
+                  <select
+                    value={formData.status}
+                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border font-bold bg-slate-50 border-slate-400 text-slate-900"
+                  >
+                    <option value="hijau">🟢 Hijau (Mencapai)</option>
+                    <option value="kuning">🟡 Kuning (Amaran)</option>
+                    <option value="merah">🔴 Merah (Lewat)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-slate-900 space-y-3">
+                <h4 className="font-bold text-amber-900">⚠️ Pengurusan Intervensi & Risiko (Jika Merah/Kuning)</h4>
+                <div>
+                  <label className="block font-bold mb-1">Sebab Kelewatan</label>
+                  <input
+                    type="text"
+                    placeholder="Nyatakan punca kelewatan..."
+                    value={formData.sebabKelewatan || ''}
+                    onChange={(e) => setFormData({ ...formData, sebabKelewatan: e.target.value })}
+                    className="w-full px-3 py-2 rounded border bg-white text-slate-900"
+                  />
+                </div>
+                <div>
+                  <label className="block font-bold mb-1">Pelan Intervensi / Actions</label>
+                  <input
+                    type="text"
+                    placeholder="Nyatakan tindakan pembetulan..."
+                    value={formData.pelanIntervensi || ''}
+                    onChange={(e) => setFormData({ ...formData, pelanIntervensi: e.target.value })}
+                    className="w-full px-3 py-2 rounded border bg-white text-slate-900"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block font-bold mb-1">Pencapaian Suku Tahun (Q1 - Q4 %)</label>
+                <div className="grid grid-cols-4 gap-2">
+                  <input
+                    type="number" placeholder="Q1" value={formData.q1}
+                    onChange={(e) => setFormData({ ...formData, q1: Number(e.target.value) })}
+                    className="p-2 rounded border text-center font-bold bg-slate-50 border-slate-400 text-slate-900"
+                  />
+                  <input
+                    type="number" placeholder="Q2" value={formData.q2}
+                    onChange={(e) => setFormData({ ...formData, q2: Number(e.target.value) })}
+                    className="p-2 rounded border text-center font-bold bg-slate-50 border-slate-400 text-slate-900"
+                  />
+                  <input
+                    type="number" placeholder="Q3" value={formData.q3}
+                    onChange={(e) => setFormData({ ...formData, q3: Number(e.target.value) })}
+                    className="p-2 rounded border text-center font-bold bg-slate-50 border-slate-400 text-slate-900"
+                  />
+                  <input
+                    type="number" placeholder="Q4" value={formData.q4}
+                    onChange={(e) => setFormData({ ...formData, q4: Number(e.target.value) })}
+                    className="p-2 rounded border text-center font-bold bg-slate-50 border-slate-400 text-slate-900"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-end space-x-2 pt-3 border-t border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => setShowFormModal(false)}
+                  className="px-4 py-2 font-bold rounded-lg bg-slate-200 text-slate-900"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white"
+                >
+                  Simpan ke Firebase
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
