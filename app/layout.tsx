@@ -1,4 +1,3 @@
-import './globals.css';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -13,6 +12,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ms">
+      <head>
+        <script src="https://cdn.tailwindcss.com"></script>
+      </head>
       <body>{children}</body>
     </html>
   );
