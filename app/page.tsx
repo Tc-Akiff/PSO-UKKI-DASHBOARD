@@ -291,6 +291,20 @@ export default function PSUKPPPage() {
     };
   }, []);
 
+  // KUNCI BAHAGIAN AUTOMATIK BILA LOG MASUK BAHAGIAN KHUSUS
+  const loggedInBahagianCode = useMemo(() => {
+    if (userRole.startsWith('ADMIN_') && userRole !== 'SUPER_ADMIN') {
+      return userRole.replace('ADMIN_', '');
+    }
+    return null;
+  }, [userRole]);
+
+  useEffect(() => {
+    if (loggedInBahagianCode) {
+      setSelectedBahagian(loggedInBahagianCode);
+    }
+  }, [loggedInBahagianCode]);
+
   const addAuditLog = async (action: string) => {
     try {
       await addDoc(collection(db, 'audit_logs'), {
@@ -306,7 +320,7 @@ export default function PSUKPPPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (loginUsername === 'admin' && loginPassword === 'admin123') {
+    if (loginUsername.toLowerCase() === 'admin' && loginPassword === 'admin123') {
       setUserRole('SUPER_ADMIN');
       setShowLoginModal(false);
       setLoginError('');
@@ -315,6 +329,7 @@ export default function PSUKPPPage() {
       const foundBahagian = BAHAGIAN_LIST.find(b => `admin_${b.code.toLowerCase()}` === loginUsername.toLowerCase());
       if (foundBahagian && loginPassword === 'admin123') {
         setUserRole(`ADMIN_${foundBahagian.code}`);
+        setSelectedBahagian(foundBahagian.code); // Autoselektif bahagian berkenaan
         setShowLoginModal(false);
         setLoginError('');
         setLoginUsername(''); setLoginPassword('');
@@ -322,6 +337,11 @@ export default function PSUKPPPage() {
         setLoginError('Username/Password Salah! Guna: admin / admin123 atau admin_<kod_bahagian>');
       }
     }
+  };
+
+  const handleLogout = () => {
+    setUserRole('PUBLIC');
+    setSelectedBahagian('ALL');
   };
 
   const canEditItem = (bahagianCode: string) => {
@@ -332,7 +352,7 @@ export default function PSUKPPPage() {
 
   const handleOpenAdd = () => {
     setEditingKpi(null);
-    const code = selectedBahagian !== 'ALL' ? selectedBahagian : 'BPEN';
+    const code = loggedInBahagianCode || (selectedBahagian !== 'ALL' ? selectedBahagian : 'BPEN');
     const bName = BAHAGIAN_LIST.find(b => b.code === code)?.name || 'Bahagian';
     setFormData({
       id: `KPI-${code}-0${kpiList.filter(k => k.bahagian === code).length + 1}`,
@@ -412,10 +432,12 @@ export default function PSUKPPPage() {
     a.click();
   };
 
+  const activeBahagianFilter = loggedInBahagianCode || selectedBahagian;
+
   const filteredData = useMemo(() => {
     return kpiList.filter((item) => {
       const matchTeras = selectedTeras === 'ALL' || item.terasId === selectedTeras;
-      const matchBahagian = selectedBahagian === 'ALL' || item.bahagian === selectedBahagian;
+      const matchBahagian = activeBahagianFilter === 'ALL' || item.bahagian === activeBahagianFilter;
       const matchStatus = selectedStatus === 'ALL' || item.status === selectedStatus;
       const matchSearch =
         item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -424,7 +446,7 @@ export default function PSUKPPPage() {
 
       return matchTeras && matchBahagian && matchStatus && matchSearch;
     });
-  }, [kpiList, selectedTeras, selectedBahagian, selectedStatus, searchTerm]);
+  }, [kpiList, selectedTeras, activeBahagianFilter, selectedStatus, searchTerm]);
 
   const stats = useMemo(() => {
     const total = filteredData.length;
@@ -454,26 +476,19 @@ export default function PSUKPPPage() {
       darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-100 text-slate-900'
     }`}>
       
-      {/* HEADER UTAMA BERSAMA EMBEDDED JATA PULAU PINANG (GERENTI 100% KELUAR) */}
+      {/* HEADER UTAMA BERSAMA EMBEDDED JATA PULAU PINANG */}
       <header className={`${
         darkMode ? 'bg-slate-800 border-slate-700' : 'bg-blue-900 border-blue-950'
       } text-white border-b sticky top-0 z-30 shadow-md`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-3">
-            
-            {/* JATA RASMI VEKTOR INLINE PULAU PINANG */}
             <div className="p-1 bg-white rounded-lg shadow-md flex items-center justify-center">
               <svg className="h-12 w-10 text-blue-950" viewBox="0 0 100 130">
-                {/* pokok pinang top */}
                 <path d="M50,10 L50,40 M42,20 L58,20 M40,28 L60,28" stroke="#008000" strokeWidth="4" strokeLinecap="round"/>
                 <circle cx="50" cy="8" r="4" fill="#008000"/>
-                {/* perisai jata */}
                 <path d="M10,40 L90,40 L90,90 Q50,120 10,90 Z" fill="#FFCC00" stroke="#000000" strokeWidth="3"/>
-                {/* jambatan pulau pinang */}
                 <path d="M20,65 L80,65 M35,45 L35,65 M65,45 L65,65 M35,45 L50,65 L65,45" stroke="#000000" strokeWidth="2.5" fill="none"/>
-                {/* ombak air */}
                 <path d="M10,75 Q30,70 50,75 T90,75 M10,83 Q30,78 50,83 T90,83 M10,91 Q30,86 50,91 T90,91" stroke="#0088CC" strokeWidth="3" fill="none"/>
-                {/* pita bersatu dan setia */}
                 <path d="M5,110 Q50,125 95,110 L90,120 Q50,130 10,120 Z" fill="#FFCC00" stroke="#000000" strokeWidth="1.5"/>
                 <text x="50" y="119" textAnchor="middle" fill="#000000" fontSize="7" fontWeight="bold" fontFamily="serif">BERSATU DAN SETIA</text>
               </svg>
@@ -512,7 +527,7 @@ export default function PSUKPPPage() {
 
             {userRole !== 'PUBLIC' ? (
               <button
-                onClick={() => setUserRole('PUBLIC')}
+                onClick={handleLogout}
                 className="px-3 py-1.5 text-xs font-bold rounded-lg bg-rose-600 hover:bg-rose-700 text-white transition shadow-sm"
               >
                 Log Keluar
@@ -545,60 +560,62 @@ export default function PSUKPPPage() {
           </div>
         ) : (
           <>
-            {/* TAB SELEKSI 14 BAHAGIAN & UNIT PSUKPP */}
-            <section className={`p-4 rounded-xl border shadow-sm ${
-              darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
-            }`}>
-              <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
-                <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-900 dark:text-blue-400">
-                  <span>🏛️</span>
-                  <span>Pilih Bahagian / Unit PSUKPP (14 Jabatan)</span>
+            {/* TAB SELEKSI 14 BAHAGIAN HANYA DIPAPARKAN JIKA TIDAK LOG MASUK BAHAGIAN KHUSUS */}
+            {!loggedInBahagianCode && (
+              <section className={`p-4 rounded-xl border shadow-sm ${
+                darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
+              }`}>
+                <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
+                  <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-900 dark:text-blue-400">
+                    <span>🏛️</span>
+                    <span>Pilih Bahagian / Unit PSUKPP (14 Jabatan)</span>
+                  </div>
+                  {selectedBahagian !== 'ALL' && (
+                    <button
+                      onClick={() => setSelectedBahagian('ALL')}
+                      className="text-xs font-bold text-rose-600 hover:underline"
+                    >
+                      ✖ Tunjukkan Semua (14 Bahagian)
+                    </button>
+                  )}
                 </div>
-                {selectedBahagian !== 'ALL' && (
+
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
                   <button
                     onClick={() => setSelectedBahagian('ALL')}
-                    className="text-xs font-bold text-rose-600 hover:underline"
+                    className={`p-2 rounded-lg text-center font-bold text-xs border transition ${
+                      selectedBahagian === 'ALL'
+                        ? 'bg-blue-900 text-white border-blue-950 shadow-md scale-102'
+                        : (darkMode ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-200')
+                    }`}
                   >
-                    ✖ Tunjukkan Semua (14 Bahagian)
+                    <span className="block text-base">🌐</span>
+                    <span>SEMUA (14)</span>
                   </button>
-                )}
-              </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
-                <button
-                  onClick={() => setSelectedBahagian('ALL')}
-                  className={`p-2 rounded-lg text-center font-bold text-xs border transition ${
-                    selectedBahagian === 'ALL'
-                      ? 'bg-blue-900 text-white border-blue-950 shadow-md scale-102'
-                      : (darkMode ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-200')
-                  }`}
-                >
-                  <span className="block text-base">🌐</span>
-                  <span>SEMUA (14)</span>
-                </button>
-
-                {BAHAGIAN_LIST.map((b) => {
-                  const isSelected = selectedBahagian === b.code;
-                  const count = kpiList.filter(k => k.bahagian === b.code).length;
-                  return (
-                    <button
-                      key={b.code}
-                      onClick={() => setSelectedBahagian(b.code)}
-                      className={`p-2 rounded-lg text-center font-bold text-xs border transition ${
-                        isSelected
-                          ? 'bg-blue-900 text-white border-blue-950 shadow-md scale-102'
-                          : (darkMode ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-200')
-                      }`}
-                      title={b.name}
-                    >
-                      <span className="block text-base">{b.icon}</span>
-                      <span className="truncate block">{b.code}</span>
-                      <span className="text-[10px] opacity-75">({count} KPI)</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </section>
+                  {BAHAGIAN_LIST.map((b) => {
+                    const isSelected = selectedBahagian === b.code;
+                    const count = kpiList.filter(k => k.bahagian === b.code).length;
+                    return (
+                      <button
+                        key={b.code}
+                        onClick={() => setSelectedBahagian(b.code)}
+                        className={`p-2 rounded-lg text-center font-bold text-xs border transition ${
+                          isSelected
+                            ? 'bg-blue-900 text-white border-blue-950 shadow-md scale-102'
+                            : (darkMode ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-200')
+                        }`}
+                        title={b.name}
+                      >
+                        <span className="block text-base">{b.icon}</span>
+                        <span className="truncate block">{b.code}</span>
+                        <span className="text-[10px] opacity-75">({count} KPI)</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
 
             {/* BAR KAWALAN ADMIN */}
             {userRole !== 'PUBLIC' && (
@@ -608,8 +625,14 @@ export default function PSUKPPPage() {
                 <div className="flex items-center space-x-2">
                   <span className="text-amber-600 text-lg">⚡</span>
                   <div>
-                    <h3 className={`text-sm font-bold ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>Panel Kawalan Pentadbir ({userRole})</h3>
-                    <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-700'}`}>Anda mempunyai kebenaran untuk mengemaskini Firebase secara dalam talian.</p>
+                    <h3 className={`text-sm font-bold ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
+                      Panel Kawalan Pentadbir ({userRole})
+                    </h3>
+                    <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-700'}`}>
+                      {loggedInBahagianCode 
+                        ? `Akses khusus dikunci untuk ${BAHAGIAN_LIST.find(b => b.code === loggedInBahagianCode)?.name}.`
+                        : 'Akses Penuh Pentadbir Super (Semua 14 Bahagian).'}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -617,7 +640,7 @@ export default function PSUKPPPage() {
                     onClick={handleOpenAdd}
                     className="px-3 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm flex items-center space-x-1"
                   >
-                    <span>➕ Tambah KPI Bahagian</span>
+                    <span>➕ Tambah KPI</span>
                   </button>
 
                   <button
@@ -738,7 +761,7 @@ export default function PSUKPPPage() {
                   <span>Carian & Tapisan Data</span>
                 </div>
                 <button
-                  onClick={() => { setSelectedTeras('ALL'); setSelectedBahagian('ALL'); setSelectedStatus('ALL'); setSearchTerm(''); }}
+                  onClick={() => { setSelectedTeras('ALL'); if (!loggedInBahagianCode) setSelectedBahagian('ALL'); setSelectedStatus('ALL'); setSearchTerm(''); }}
                   className={`text-xs font-black transition ${darkMode ? 'text-blue-400' : 'text-blue-800'}`}
                 >
                   🔄 Reset Tapisan
@@ -783,13 +806,14 @@ export default function PSUKPPPage() {
                 <div>
                   <label className={`block text-[11px] font-black mb-1 ${darkMode ? 'text-slate-300' : 'text-slate-900'}`}>Bahagian / Jabatan</label>
                   <select
-                    value={selectedBahagian}
+                    disabled={!!loggedInBahagianCode}
+                    value={activeBahagianFilter}
                     onChange={(e) => setSelectedBahagian(e.target.value)}
                     className={`w-full px-3 py-2 text-xs rounded-lg border font-bold outline-none transition ${
                       darkMode 
                         ? 'bg-slate-900 border-slate-700 text-slate-100' 
                         : 'bg-slate-50 border-slate-400 text-slate-900'
-                    }`}
+                    } ${loggedInBahagianCode ? 'opacity-70 cursor-not-allowed' : ''}`}
                   >
                     <option value="ALL">Semua Bahagian (14 Unit)</option>
                     {BAHAGIAN_LIST.map(b => (
@@ -1281,13 +1305,16 @@ export default function PSUKPPPage() {
                 <div>
                   <label className="block font-bold mb-1">Bahagian / Unit</label>
                   <select
+                    disabled={!!loggedInBahagianCode}
                     value={formData.bahagian}
                     onChange={(e) => {
                       const code = e.target.value;
                       const bName = BAHAGIAN_LIST.find(b => b.code === code)?.name || 'Bahagian';
                       setFormData({ ...formData, bahagian: code, pemilik: bName });
                     }}
-                    className="w-full px-3 py-2 rounded-lg border font-bold bg-slate-50 border-slate-400 text-slate-900"
+                    className={`w-full px-3 py-2 rounded-lg border font-bold bg-slate-50 border-slate-400 text-slate-900 ${
+                      loggedInBahagianCode ? 'opacity-70 cursor-not-allowed' : ''
+                    }`}
                   >
                     {BAHAGIAN_LIST.map(b => (
                       <option key={b.code} value={b.code}>{b.code} - {b.name}</option>
