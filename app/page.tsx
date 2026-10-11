@@ -12,66 +12,28 @@ import {
   addDoc 
 } from 'firebase/firestore';
 
-// --- DATA ASAL PRESTASI PSO PSUKPP ---
+// --- SENARAI 14 BAHAGIAN & UNIT PSUKPP ---
+const BAHAGIAN_LIST = [
+  { code: 'BPEN', name: 'Bahagian Perancang Ekonomi Negeri (BPEN)', icon: '📈' },
+  { code: 'BPSM', name: 'Bahagian Pengurusan Sumber Manusia (BPSM)', icon: '👥' },
+  { code: 'BTMKN', name: 'Bahagian Teknologi Maklumat Dan Komunikasi Negeri (BTMKN)', icon: '💻' },
+  { code: 'UAD', name: 'Unit Audit Dalam (UAD)', icon: '🔍' },
+  { code: 'BKP', name: 'Bahagian Khidmat Pengurusan (BKP)', icon: '🏢' },
+  { code: 'DUN', name: 'Dewan Undangan Negeri (DUN)', icon: '🏛️' },
+  { code: 'BKT', name: 'Bahagian Kerajaan Tempatan (BKT)', icon: '🏘️' },
+  { code: 'BPMP', name: 'Bahagian Pengurusan Majlis Dan Protokol (BPMP)', icon: '🏅' },
+  { code: 'MSNPP', name: 'Majlis Sukan Negeri Pulau Pinang (MSNPP)', icon: '🏆' },
+  { code: 'BKSA', name: 'Bahagian Kawal Selia Air (BKSA)', icon: '💧' },
+  { code: 'UKKI', name: 'Unit Komunikasi Korporat & Inovasi (UKKI)', icon: '📢' },
+  { code: 'UI', name: 'Unit Integriti (UI)', icon: '🛡️' },
+  { code: 'UPB', name: 'Unit Pengurusan Bencana (UPB)', icon: '🚨' },
+  { code: 'PPW', name: 'Pejabat Pesuruhjaya Warisan (PPW)', icon: '📜' },
+];
+
+// --- DATA INITIAL UNTUK 14 BAHAGIAN ---
 const defaultKpiData = [
   {
-    id: 'KPI-01',
-    terasId: 'T1',
-    terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
-    title: 'Peratusan Transaksi Perkhidmatan Atas Talian (E-Perkhidmatan)',
-    bahagian: 'BTM',
-    sasaran: 85,
-    pencapaian: 88,
-    status: 'hijau',
-    q1: 20, q2: 45, q3: 70, q4: 88,
-    pemilik: 'Bahagian Teknologi Maklumat',
-    sebabKelewatan: '',
-    pelanIntervensi: ''
-  },
-  {
-    id: 'KPI-02',
-    terasId: 'T1',
-    terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
-    title: 'Indeks Kepuasan Pelanggan Luaran Terhadap Perkhidmatan Utama',
-    bahagian: 'BKP',
-    sasaran: 90,
-    pencapaian: 92,
-    status: 'hijau',
-    q1: 25, q2: 50, q3: 75, q4: 92,
-    pemilik: 'Bahagian Khidmat Pengurusan',
-    sebabKelewatan: '',
-    pelanIntervensi: ''
-  },
-  {
-    id: 'KPI-03',
-    terasId: 'T2',
-    terasName: 'Teras 2: Pembangunan Modal Insan & Prestasi Warga Kerja',
-    title: 'Peratus Warga Kerja Menghadiri Latihan Sekurang-kurangnya 5 Hari/Tahun',
-    bahagian: 'BKP',
-    sasaran: 100,
-    pencapaian: 65,
-    status: 'kuning',
-    q1: 15, q2: 35, q3: 50, q4: 65,
-    pemilik: 'Bahagian Khidmat Pengurusan',
-    sebabKelewatan: 'Kekangan jadual kerja penjawat awam pada suku tahun kedua.',
-    pelanIntervensi: 'Melaksanakan kursus e-learning secara dalam talian untuk kemudahan warga kerja.'
-  },
-  {
-    id: 'KPI-04',
-    terasId: 'T2',
-    terasName: 'Teras 2: Pembangunan Modal Insan & Prestasi Warga Kerja',
-    title: 'Peratusan Pelaksanaan Program Pembudayaan Inovasi & Nilai Murni',
-    bahagian: 'BKP',
-    sasaran: 80,
-    pencapaian: 78,
-    status: 'hijau',
-    q1: 20, q2: 40, q3: 60, q4: 78,
-    pemilik: 'Bahagian Khidmat Pengurusan',
-    sebabKelewatan: '',
-    pelanIntervensi: ''
-  },
-  {
-    id: 'KPI-05',
+    id: 'KPI-BPEN-01',
     terasId: 'T3',
     terasName: 'Teras 3: Pemantauan Projek Pembangunan & Ekonomi Negeri',
     title: 'Peratus Kelulusan Permohonan Kelulusan Pelan Pembangunan (14 Hari)',
@@ -80,26 +42,82 @@ const defaultKpiData = [
     pencapaian: 45,
     status: 'merah',
     q1: 10, q2: 25, q3: 35, q4: 45,
-    pemilik: 'Bahagian Perancang Ekonomi Negeri',
+    pemilik: 'Bahagian Perancang Ekonomi Negeri (BPEN)',
     sebabKelewatan: 'Kelewatan ulasan teknikal daripada agensi luaran.',
     pelanIntervensi: 'Mengadakan Mesyuarat Taskforce Kelulusan Khas setiap minggu bersama agensi teknikal.'
   },
   {
-    id: 'KPI-06',
-    terasId: 'T3',
-    terasName: 'Teras 3: Pemantauan Projek Pembangunan & Ekonomi Negeri',
-    title: 'Peratus Prestasi Perbelanjaan Pembangunan Negeri',
-    bahagian: 'BPEN',
-    sasaran: 95,
-    pencapaian: 82,
+    id: 'KPI-BPSM-01',
+    terasId: 'T2',
+    terasName: 'Teras 2: Pembangunan Modal Insan & Prestasi Warga Kerja',
+    title: 'Peratus Warga Kerja Menghadiri Latihan Sekurang-kurangnya 7 Hari/Tahun',
+    bahagian: 'BPSM',
+    sasaran: 100,
+    pencapaian: 65,
     status: 'kuning',
-    q1: 20, q2: 45, q3: 65, q4: 82,
-    pemilik: 'Bahagian Perancang Ekonomi Negeri',
-    sebabKelewatan: 'Isu bayaran tuntutan akhir projek pembangunan lewat dikemukakan kontraktor.',
-    pelanIntervensi: 'Membuat peringatan mesra perbelanjaan dan mempercepatkan pemprosesan tuntutan.'
+    q1: 15, q2: 35, q3: 50, q4: 65,
+    pemilik: 'Bahagian Pengurusan Sumber Manusia (BPSM)',
+    sebabKelewatan: 'Kekangan jadual kerja penjawat awam pada suku tahun kedua.',
+    pelanIntervensi: 'Melaksanakan kursus e-learning secara dalam talian untuk kemudahan warga kerja.'
   },
   {
-    id: 'KPI-07',
+    id: 'KPI-BTMKN-01',
+    terasId: 'T1',
+    terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
+    title: 'Peratusan Transaksi Perkhidmatan Atas Talian (E-Perkhidmatan)',
+    bahagian: 'BTMKN',
+    sasaran: 85,
+    pencapaian: 88,
+    status: 'hijau',
+    q1: 20, q2: 45, q3: 70, q4: 88,
+    pemilik: 'Bahagian Teknologi Maklumat Dan Komunikasi Negeri (BTMKN)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
+  },
+  {
+    id: 'KPI-UAD-01',
+    terasId: 'T1',
+    terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
+    title: 'Peratusan Penyelesaian Pengauditan Pengurusan Kewangan Jabatan',
+    bahagian: 'UAD',
+    sasaran: 100,
+    pencapaian: 95,
+    status: 'hijau',
+    q1: 25, q2: 50, q3: 75, q4: 95,
+    pemilik: 'Unit Audit Dalam (UAD)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
+  },
+  {
+    id: 'KPI-BKP-01',
+    terasId: 'T1',
+    terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
+    title: 'Indeks Kepuasan Pelanggan Luaran Terhadap Perkhidmatan Utama',
+    bahagian: 'BKP',
+    sasaran: 90,
+    pencapaian: 92,
+    status: 'hijau',
+    q1: 25, q2: 50, q3: 75, q4: 92,
+    pemilik: 'Bahagian Khidmat Pengurusan (BKP)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
+  },
+  {
+    id: 'KPI-DUN-01',
+    terasId: 'T1',
+    terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
+    title: 'Kelancaran Persidangan Dewan Undangan Negeri Tanpa Isu Teknikal',
+    bahagian: 'DUN',
+    sasaran: 100,
+    pencapaian: 100,
+    status: 'hijau',
+    q1: 25, q2: 50, q3: 75, q4: 100,
+    pemilik: 'Dewan Undangan Negeri (DUN)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
+  },
+  {
+    id: 'KPI-BKT-01',
     terasId: 'T4',
     terasName: 'Teras 4: Kesejahteraan Sosial & Pembangunan Komuniti',
     title: 'Peratus Program Penglibatan Komuniti Pendigitalan Smart Penang',
@@ -108,30 +126,114 @@ const defaultKpiData = [
     pencapaian: 85,
     status: 'hijau',
     q1: 20, q2: 45, q3: 65, q4: 85,
-    pemilik: 'Bahagian Kerajaan Tempatan',
+    pemilik: 'Bahagian Kerajaan Tempatan (BKT)',
     sebabKelewatan: '',
     pelanIntervensi: ''
   },
   {
-    id: 'KPI-08',
+    id: 'KPI-BPMP-01',
+    terasId: 'T1',
+    terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
+    title: 'Peratus Kesempurnaan Pelaksanaan Majlis Rasmi Kerajaan Negeri',
+    bahagian: 'BPMP',
+    sasaran: 95,
+    pencapaian: 98,
+    status: 'hijau',
+    q1: 25, q2: 50, q3: 75, q4: 98,
+    pemilik: 'Bahagian Pengurusan Majlis Dan Protokol (BPMP)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
+  },
+  {
+    id: 'KPI-MSNPP-01',
     terasId: 'T4',
     terasName: 'Teras 4: Kesejahteraan Sosial & Pembangunan Komuniti',
-    title: 'Jumlah Program Kesedaran Keselamatan Cyber di Peringkat Komuniti',
-    bahagian: 'BTM',
-    sasaran: 70,
-    pencapaian: 30,
-    status: 'merah',
-    q1: 5, q2: 12, q3: 20, q4: 30,
-    pemilik: 'Bahagian Teknologi Maklumat',
-    sebabKelewatan: 'Peruntukan kewangan program suku ketiga ditangguhkan.',
-    pelanIntervensi: 'Menggunakan peruntukan dalaman dan bekerjasama dengan NACSA/CyberSecurity Malaysia.'
+    title: 'Peratus Pembangunan Atlet Dan Program Latihan Sukan SUKMA',
+    bahagian: 'MSNPP',
+    sasaran: 90,
+    pencapaian: 82,
+    status: 'kuning',
+    q1: 20, q2: 40, q3: 60, q4: 82,
+    pemilik: 'Majlis Sukan Negeri Pulau Pinang (MSNPP)',
+    sebabKelewatan: 'Kelewatan fasiliti latihan di beberapa kompleks sukan.',
+    pelanIntervensi: 'Menyewa fasiliti alternatif dan menambah slot latihan.'
+  },
+  {
+    id: 'KPI-BKSA-01',
+    terasId: 'T3',
+    terasName: 'Teras 3: Pemantauan Projek Pembangunan & Ekonomi Negeri',
+    title: 'Peratus Pemantauan Pengoperasian & Lesen Sumber Air Mentah Negeri',
+    bahagian: 'BKSA',
+    sasaran: 95,
+    pencapaian: 90,
+    status: 'hijau',
+    q1: 22, q2: 45, q3: 68, q4: 90,
+    pemilik: 'Bahagian Kawal Selia Air (BKSA)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
+  },
+  {
+    id: 'KPI-UKKI-01',
+    terasId: 'T1',
+    terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
+    title: 'Peratus Pelaksanaan Inisiatif Pembudayaan Inovasi & Komunikasi Public',
+    bahagian: 'UKKI',
+    sasaran: 85,
+    pencapaian: 80,
+    status: 'hijau',
+    q1: 20, q2: 40, q3: 60, q4: 80,
+    pemilik: 'Unit Komunikasi Korporat & Inovasi (UKKI)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
+  },
+  {
+    id: 'KPI-UI-01',
+    terasId: 'T1',
+    terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
+    title: 'Peratus Pelaksanaan Pelan Anti-Rasuah Organisasi (OACP)',
+    bahagian: 'UI',
+    sasaran: 100,
+    pencapaian: 100,
+    status: 'hijau',
+    q1: 25, q2: 50, q3: 75, q4: 100,
+    pemilik: 'Unit Integriti (UI)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
+  },
+  {
+    id: 'KPI-UPB-01',
+    terasId: 'T4',
+    terasName: 'Teras 4: Kesejahteraan Sosial & Pembangunan Komuniti',
+    title: 'Peratus Kesiapsiagaan Bilik Gerakan Bencani & Latihan Komuniti',
+    bahagian: 'UPB',
+    sasaran: 95,
+    pencapaian: 92,
+    status: 'hijau',
+    q1: 23, q2: 46, q3: 69, q4: 92,
+    pemilik: 'Unit Pengurusan Bencana (UPB)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
+  },
+  {
+    id: 'KPI-PPW-01',
+    terasId: 'T4',
+    terasName: 'Teras 4: Kesejahteraan Sosial & Pembangunan Komuniti',
+    title: 'Peratus Pemeliharaan & Pemuliharaan Tapak Warisan Dunia UNESCO',
+    bahagian: 'PPW',
+    sasaran: 90,
+    pencapaian: 87,
+    status: 'hijau',
+    q1: 20, q2: 42, q3: 65, q4: 87,
+    pemilik: 'Pejabat Pesuruhjaya Warisan (PPW)',
+    sebabKelewatan: '',
+    pelanIntervensi: ''
   }
 ];
 
 export default function PSUKPPPage() {
   const [kpiList, setKpiList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [userRole, setUserRole] = useState<'PUBLIC' | 'SUPER_ADMIN' | 'ADMIN_BTM' | 'ADMIN_BKP' | 'ADMIN_BPEN' | 'ADMIN_BKT'>('PUBLIC');
+  const [userRole, setUserRole] = useState<string>('PUBLIC');
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
   const [loginUsername, setLoginUsername] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
@@ -147,12 +249,12 @@ export default function PSUKPPPage() {
     terasId: 'T1',
     terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
     title: '',
-    bahagian: 'BTM',
+    bahagian: 'BPEN',
     sasaran: 80,
     pencapaian: 0,
     status: 'hijau',
     q1: 0, q2: 0, q3: 0, q4: 0,
-    pemilik: 'Bahagian Teknologi Maklumat',
+    pemilik: 'Bahagian Perancang Ekonomi Negeri (BPEN)',
     sebabKelewatan: '',
     pelanIntervensi: ''
   });
@@ -209,38 +311,40 @@ export default function PSUKPPPage() {
       setShowLoginModal(false);
       setLoginError('');
       setLoginUsername(''); setLoginPassword('');
-    } else if (loginUsername === 'admin_btm' && loginPassword === 'admin123') {
-      setUserRole('ADMIN_BTM');
-      setShowLoginModal(false);
-      setLoginError('');
-      setLoginUsername(''); setLoginPassword('');
     } else {
-      setLoginError('Username/Password Salah! Guna: admin / admin123');
+      const foundBahagian = BAHAGIAN_LIST.find(b => `admin_${b.code.toLowerCase()}` === loginUsername.toLowerCase());
+      if (foundBahagian && loginPassword === 'admin123') {
+        setUserRole(`ADMIN_${foundBahagian.code}`);
+        setShowLoginModal(false);
+        setLoginError('');
+        setLoginUsername(''); setLoginPassword('');
+      } else {
+        setLoginError('Username/Password Salah! Guna: admin / admin123 atau admin_<kod_bahagian>');
+      }
     }
   };
 
-  const canEditItem = (bahagian: string) => {
+  const canEditItem = (bahagianCode: string) => {
     if (userRole === 'SUPER_ADMIN') return true;
-    if (userRole === 'ADMIN_BTM' && bahagian === 'BTM') return true;
-    if (userRole === 'ADMIN_BKP' && bahagian === 'BKP') return true;
-    if (userRole === 'ADMIN_BPEN' && bahagian === 'BPEN') return true;
-    if (userRole === 'ADMIN_BKT' && bahagian === 'BKT') return true;
+    if (userRole === `ADMIN_${bahagianCode}`) return true;
     return false;
   };
 
   const handleOpenAdd = () => {
     setEditingKpi(null);
+    const code = selectedBahagian !== 'ALL' ? selectedBahagian : 'BPEN';
+    const bName = BAHAGIAN_LIST.find(b => b.code === code)?.name || 'Bahagian';
     setFormData({
-      id: `KPI-0${kpiList.length + 1}`,
+      id: `KPI-${code}-0${kpiList.filter(k => k.bahagian === code).length + 1}`,
       terasId: 'T1',
       terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
       title: '',
-      bahagian: 'BTM',
+      bahagian: code,
       sasaran: 100,
       pencapaian: 0,
       status: 'kuning',
       q1: 0, q2: 0, q3: 0, q4: 0,
-      pemilik: 'Bahagian Teknologi Maklumat',
+      pemilik: bName,
       sebabKelewatan: '',
       pelanIntervensi: ''
     });
@@ -266,7 +370,7 @@ export default function PSUKPPPage() {
   };
 
   const handleResetData = async () => {
-    if (confirm('Set semula semua data di Firebase ke tetapan asal?')) {
+    if (confirm('Set semula semua data di Firebase ke tetapan asal 14 Bahagian?')) {
       try {
         for (const item of defaultKpiData) {
           await setDoc(doc(db, 'kpis', item.id), item);
@@ -350,19 +454,31 @@ export default function PSUKPPPage() {
       darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-100 text-slate-900'
     }`}>
       
-      {/* HEADER UTAMA BERSAMA JATA NEGERI PULAU PINANG */}
+      {/* HEADER UTAMA BERSAMA EMBEDDED JATA PULAU PINANG (GERENTI 100% KELUAR) */}
       <header className={`${
         darkMode ? 'bg-slate-800 border-slate-700' : 'bg-blue-900 border-blue-950'
       } text-white border-b sticky top-0 z-30 shadow-md`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-3">
-            <div className="h-14 w-auto flex items-center justify-center p-0.5 bg-white/10 rounded-lg backdrop-blur-xs">
-              <img 
-                src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Coat_of_arms_of_Penang.svg" 
-                alt="Jata Negeri Pulau Pinang" 
-                className="h-12 w-auto object-contain drop-shadow-md"
-              />
+            
+            {/* JATA RASMI VEKTOR INLINE PULAU PINANG */}
+            <div className="p-1 bg-white rounded-lg shadow-md flex items-center justify-center">
+              <svg className="h-12 w-10 text-blue-950" viewBox="0 0 100 130">
+                {/* pokok pinang top */}
+                <path d="M50,10 L50,40 M42,20 L58,20 M40,28 L60,28" stroke="#008000" strokeWidth="4" strokeLinecap="round"/>
+                <circle cx="50" cy="8" r="4" fill="#008000"/>
+                {/* perisai jata */}
+                <path d="M10,40 L90,40 L90,90 Q50,120 10,90 Z" fill="#FFCC00" stroke="#000000" strokeWidth="3"/>
+                {/* jambatan pulau pinang */}
+                <path d="M20,65 L80,65 M35,45 L35,65 M65,45 L65,65 M35,45 L50,65 L65,45" stroke="#000000" strokeWidth="2.5" fill="none"/>
+                {/* ombak air */}
+                <path d="M10,75 Q30,70 50,75 T90,75 M10,83 Q30,78 50,83 T90,83 M10,91 Q30,86 50,91 T90,91" stroke="#0088CC" strokeWidth="3" fill="none"/>
+                {/* pita bersatu dan setia */}
+                <path d="M5,110 Q50,125 95,110 L90,120 Q50,130 10,120 Z" fill="#FFCC00" stroke="#000000" strokeWidth="1.5"/>
+                <text x="50" y="119" textAnchor="middle" fill="#000000" fontSize="7" fontWeight="bold" fontFamily="serif">BERSATU DAN SETIA</text>
+              </svg>
             </div>
+
             <div>
               <div className="text-xs font-bold tracking-wider text-yellow-300 uppercase">Pejabat Setiausaha Kerajaan Negeri Pulau Pinang</div>
               <h1 className="text-lg sm:text-xl font-extrabold leading-tight tracking-wide text-white">DASHBOARD PELAN STRATEGIK ORGANISASI (PSO)</h1>
@@ -429,6 +545,61 @@ export default function PSUKPPPage() {
           </div>
         ) : (
           <>
+            {/* TAB SELEKSI 14 BAHAGIAN & UNIT PSUKPP */}
+            <section className={`p-4 rounded-xl border shadow-sm ${
+              darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
+            }`}>
+              <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
+                <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-900 dark:text-blue-400">
+                  <span>🏛️</span>
+                  <span>Pilih Bahagian / Unit PSUKPP (14 Jabatan)</span>
+                </div>
+                {selectedBahagian !== 'ALL' && (
+                  <button
+                    onClick={() => setSelectedBahagian('ALL')}
+                    className="text-xs font-bold text-rose-600 hover:underline"
+                  >
+                    ✖ Tunjukkan Semua (14 Bahagian)
+                  </button>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
+                <button
+                  onClick={() => setSelectedBahagian('ALL')}
+                  className={`p-2 rounded-lg text-center font-bold text-xs border transition ${
+                    selectedBahagian === 'ALL'
+                      ? 'bg-blue-900 text-white border-blue-950 shadow-md scale-102'
+                      : (darkMode ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-200')
+                  }`}
+                >
+                  <span className="block text-base">🌐</span>
+                  <span>SEMUA (14)</span>
+                </button>
+
+                {BAHAGIAN_LIST.map((b) => {
+                  const isSelected = selectedBahagian === b.code;
+                  const count = kpiList.filter(k => k.bahagian === b.code).length;
+                  return (
+                    <button
+                      key={b.code}
+                      onClick={() => setSelectedBahagian(b.code)}
+                      className={`p-2 rounded-lg text-center font-bold text-xs border transition ${
+                        isSelected
+                          ? 'bg-blue-900 text-white border-blue-950 shadow-md scale-102'
+                          : (darkMode ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-200')
+                      }`}
+                      title={b.name}
+                    >
+                      <span className="block text-base">{b.icon}</span>
+                      <span className="truncate block">{b.code}</span>
+                      <span className="text-[10px] opacity-75">({count} KPI)</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+
             {/* BAR KAWALAN ADMIN */}
             {userRole !== 'PUBLIC' && (
               <div className={`p-4 rounded-xl border shadow-sm flex flex-wrap justify-between items-center gap-3 ${
@@ -446,7 +617,7 @@ export default function PSUKPPPage() {
                     onClick={handleOpenAdd}
                     className="px-3 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm flex items-center space-x-1"
                   >
-                    <span>➕ Tambah KPI</span>
+                    <span>➕ Tambah KPI Bahagian</span>
                   </button>
 
                   <button
@@ -620,11 +791,10 @@ export default function PSUKPPPage() {
                         : 'bg-slate-50 border-slate-400 text-slate-900'
                     }`}
                   >
-                    <option value="ALL">Semua Bahagian (BKP/BTM/BPEN/BKT)</option>
-                    <option value="BTM">BTM - Teknologi Maklumat</option>
-                    <option value="BKP">BKP - Khidmat Pengurusan</option>
-                    <option value="BPEN">BPEN - Perancang Ekonomi</option>
-                    <option value="BKT">BKT - Kerajaan Tempatan</option>
+                    <option value="ALL">Semua Bahagian (14 Unit)</option>
+                    {BAHAGIAN_LIST.map(b => (
+                      <option key={b.code} value={b.code}>{b.code} - {b.name}</option>
+                    ))}
                   </select>
                 </div>
 
@@ -825,7 +995,7 @@ export default function PSUKPPPage() {
                               </td>
 
                               <td className="p-3.5 whitespace-nowrap">
-                                <span className={`font-black ${darkMode ? 'text-slate-200' : 'text-slate-900'}`}>{item.bahagian}</span>
+                                <span className="font-black px-2 py-1 bg-blue-100 text-blue-900 rounded font-mono text-xs">{item.bahagian}</span>
                               </td>
 
                               <td className={`p-3.5 text-center font-black ${darkMode ? 'text-slate-200' : 'text-slate-900'}`}>
@@ -918,7 +1088,7 @@ export default function PSUKPPPage() {
                                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-3 text-xs">
                                       <div className="p-3 rounded-lg bg-slate-900 text-white shadow-xs">
                                         <span className="text-slate-300 text-[10px] font-bold block uppercase">Pemilik / Bahagian:</span>
-                                        <strong className="text-xs font-black text-white">{item.pemilik} ({item.bahagian})</strong>
+                                        <strong className="text-xs font-black text-white">{item.pemilik}</strong>
                                       </div>
                                       <div className="p-3 rounded-lg bg-slate-900 text-white shadow-xs">
                                         <span className="text-slate-300 text-[10px] font-bold block uppercase">Sasaran Tahunan:</span>
@@ -1021,7 +1191,7 @@ export default function PSUKPPPage() {
             darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-white border-slate-300 text-slate-900'
           }`}>
             <div className="flex justify-between items-center pb-3 border-b border-slate-200">
-              <h3 className="text-base font-black">🔒 Log Masuk Pentadbir (Admin)</h3>
+              <h3 className="text-base font-black">🔒 Log Masuk Pentadbir (Admin Bahagian)</h3>
               <button onClick={() => setShowLoginModal(false)} className="text-slate-500 font-bold">✕</button>
             </div>
 
@@ -1037,7 +1207,7 @@ export default function PSUKPPPage() {
                 <input
                   type="text"
                   required
-                  placeholder="admin / admin_btm"
+                  placeholder="admin / admin_bpen / admin_bpsm..."
                   value={loginUsername}
                   onChange={(e) => setLoginUsername(e.target.value)}
                   className="w-full px-3 py-2 text-xs rounded-lg border font-semibold outline-none bg-slate-50 border-slate-400 text-slate-900"
@@ -1058,7 +1228,8 @@ export default function PSUKPPPage() {
 
               <div className="p-2.5 rounded-lg bg-blue-50 text-[11px] text-blue-950 border border-blue-200 font-bold space-y-1">
                 <div>🔑 <strong>Super Admin:</strong> admin / admin123</div>
-                <div>🔑 <strong>Admin BTM:</strong> admin_btm / admin123</div>
+                <div>🔑 <strong>Admin Bahagian:</strong> admin_&lt;kod_bahagian&gt; / admin123</div>
+                <div className="text-[10px] text-slate-600 font-normal mt-1">(Contoh: admin_bpen, admin_bpsm, admin_btmkn, admin_uad, admin_bkp, dll.)</div>
               </div>
 
               <div className="flex justify-end space-x-2 pt-2">
@@ -1108,16 +1279,19 @@ export default function PSUKPPPage() {
                 </div>
 
                 <div>
-                  <label className="block font-bold mb-1">Bahagian</label>
+                  <label className="block font-bold mb-1">Bahagian / Unit</label>
                   <select
                     value={formData.bahagian}
-                    onChange={(e) => setFormData({ ...formData, bahagian: e.target.value })}
+                    onChange={(e) => {
+                      const code = e.target.value;
+                      const bName = BAHAGIAN_LIST.find(b => b.code === code)?.name || 'Bahagian';
+                      setFormData({ ...formData, bahagian: code, pemilik: bName });
+                    }}
                     className="w-full px-3 py-2 rounded-lg border font-bold bg-slate-50 border-slate-400 text-slate-900"
                   >
-                    <option value="BTM">BTM - Teknologi Maklumat</option>
-                    <option value="BKP">BKP - Khidmat Pengurusan</option>
-                    <option value="BPEN">BPEN - Perancang Ekonomi</option>
-                    <option value="BKT">BKT - Kerajaan Tempatan</option>
+                    {BAHAGIAN_LIST.map(b => (
+                      <option key={b.code} value={b.code}>{b.code} - {b.name}</option>
+                    ))}
                   </select>
                 </div>
               </div>
