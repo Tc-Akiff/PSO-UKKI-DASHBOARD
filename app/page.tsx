@@ -147,6 +147,9 @@ const dict = {
     statusGreen: 'Hijau (Mencapai Sasaran)',
     statusYellow: 'Kuning (Dalam Perhatian)',
     statusRed: 'Merah (Memerlukan Intervensi)',
+    lblGreen: 'HIJAU',
+    lblYellow: 'KUNING',
+    lblRed: 'MERAH',
     pieChartTitle: 'Analisis Taburan Status Inisiatif',
     trendTitle: 'Purata Pencapaian Mengikut Suku Tahun (Q1-Q4)',
     tableTitle: 'SENARAI STRATEGIK & KPI ORGANISASI',
@@ -211,6 +214,9 @@ const dict = {
     statusGreen: 'Green (Target Met)',
     statusYellow: 'Yellow (Needs Attention)',
     statusRed: 'Red (Requires Intervention)',
+    lblGreen: 'GREEN',
+    lblYellow: 'YELLOW',
+    lblRed: 'RED',
     pieChartTitle: 'Initiative Status Distribution Analysis',
     trendTitle: 'Quarterly Average Achievement (Q1-Q4)',
     tableTitle: 'STRATEGIC INITIATIVES & KPI LIST',
@@ -482,6 +488,13 @@ export default function PSUKPPPage() {
 
   const getY = (val: number) => 85 - (val / 100) * 70;
 
+  const getStatusLabel = (status: string) => {
+    if (status === 'hijau') return t.lblGreen;
+    if (status === 'kuning') return t.lblYellow;
+    if (status === 'merah') return t.lblRed;
+    return status;
+  };
+
   return (
     <div className="min-h-screen bg-slate-100 text-slate-900 font-sans antialiased">
       
@@ -502,30 +515,16 @@ export default function PSUKPPPage() {
         </div>
       </div>
 
-      {/* HEADER UTAMA KORPORAT */}
+      {/* HEADER UTAMA KORPORAT (TANPA LOGO/JATA) */}
       <header className="bg-slate-900 text-white border-b-4 border-amber-500 sticky top-0 z-30 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
-          <div className="flex items-center space-x-4">
-            <div className="p-2 bg-white rounded shadow-sm border border-amber-400/40">
-              <svg className="h-12 w-10 text-blue-950" viewBox="0 0 100 130">
-                <path d="M50,10 L50,40 M42,20 L58,20 M40,28 L60,28" stroke="#008000" strokeWidth="4" strokeLinecap="round"/>
-                <circle cx="50" cy="8" r="4" fill="#008000"/>
-                <path d="M10,40 L90,40 L90,90 Q50,120 10,90 Z" fill="#FFCC00" stroke="#000000" strokeWidth="3"/>
-                <path d="M20,65 L80,65 M35,45 L35,65 M65,45 L65,65 M35,45 L50,65 L65,45" stroke="#000000" strokeWidth="2.5" fill="none"/>
-                <path d="M10,75 Q30,70 50,75 T90,75 M10,83 Q30,78 50,83 T90,83 M10,91 Q30,86 50,91 T90,91" stroke="#0088CC" strokeWidth="3" fill="none"/>
-                <path d="M5,110 Q50,125 95,110 L90,120 Q50,130 10,120 Z" fill="#FFCC00" stroke="#000000" strokeWidth="1.5"/>
-                <text x="50" y="119" textAnchor="middle" fill="#000000" fontSize="7" fontWeight="bold" fontFamily="serif">BERSATU DAN SETIA</text>
-              </svg>
+          <div>
+            <div className="text-[11px] font-extrabold tracking-widest text-amber-400 uppercase">
+              PEJABAT SETIAUSAHA KERAJAAN NEGERI PULAU PINANG
             </div>
-
-            <div>
-              <div className="text-[11px] font-extrabold tracking-widest text-amber-400 uppercase">
-                PEJABAT SETIAUSAHA KERAJAAN NEGERI PULAU PINANG
-              </div>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white uppercase">
-                {t.title}
-              </h1>
-            </div>
+            <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white uppercase">
+              {t.title}
+            </h1>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -700,7 +699,7 @@ export default function PSUKPPPage() {
                     {stats.total > 0 ? Math.round((stats.hijau / stats.total) * 100) : 0}%
                   </div>
                 </div>
-                <span className="text-[11px] text-emerald-800 font-bold mt-3">STATUS HIJAU</span>
+                <span className="text-[11px] text-emerald-800 font-bold mt-3">{t.lblGreen}</span>
               </div>
 
               <div className="p-5 bg-white rounded-lg border border-slate-300 shadow-xs flex flex-col justify-between border-t-4 border-t-amber-500">
@@ -711,7 +710,7 @@ export default function PSUKPPPage() {
                     {stats.total > 0 ? Math.round((stats.kuning / stats.total) * 100) : 0}%
                   </div>
                 </div>
-                <span className="text-[11px] text-amber-800 font-bold mt-3">STATUS KUNING</span>
+                <span className="text-[11px] text-amber-800 font-bold mt-3">{t.lblYellow}</span>
               </div>
 
               <div className="p-5 bg-white rounded-lg border border-slate-300 shadow-xs flex flex-col justify-between border-t-4 border-t-rose-600">
@@ -722,7 +721,7 @@ export default function PSUKPPPage() {
                     {stats.total > 0 ? Math.round((stats.merah / stats.total) * 100) : 0}%
                   </div>
                 </div>
-                <span className="text-[11px] text-rose-800 font-bold mt-3">STATUS MERAH</span>
+                <span className="text-[11px] text-rose-800 font-bold mt-3">{t.lblRed}</span>
               </div>
             </section>
 
@@ -991,7 +990,7 @@ export default function PSUKPPPage() {
                                     item.status === 'kuning' ? 'bg-amber-50 text-amber-800 border-amber-300' :
                                     'bg-rose-50 text-rose-800 border-rose-300'
                                   }`}>
-                                    {item.status}
+                                    {getStatusLabel(item.status)}
                                   </span>
                                 </div>
                               </td>
@@ -1059,7 +1058,7 @@ export default function PSUKPPPage() {
                                       </div>
                                       <div className="p-3 bg-slate-50 rounded border border-slate-200">
                                         <span className="text-[10px] font-bold text-slate-500 uppercase block">{t.colStatus}</span>
-                                        <strong className="uppercase text-slate-900 font-bold">{item.status}</strong>
+                                        <strong className="uppercase text-slate-900 font-bold">{getStatusLabel(item.status)}</strong>
                                       </div>
                                     </div>
 
