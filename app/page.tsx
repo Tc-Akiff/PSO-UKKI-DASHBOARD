@@ -36,6 +36,7 @@ const defaultKpiData = [
     terasId: 'T3',
     terasName: 'Teras 3: Pemantauan Projek Pembangunan & Ekonomi Negeri',
     title: 'Peratus Kelulusan Permohonan Kelulusan Pelan Pembangunan (14 Hari)',
+    titleEn: 'Percentage of Approval Applications for Development Plans (14 Days)',
     bahagian: 'BPEN',
     sasaran: 90,
     pencapaian: 45,
@@ -50,6 +51,7 @@ const defaultKpiData = [
     terasId: 'T2',
     terasName: 'Teras 2: Pembangunan Modal Insan & Prestasi Warga Kerja',
     title: 'Peratus Warga Kerja Menghadiri Latihan Sekurang-kurangnya 7 Hari/Tahun',
+    titleEn: 'Percentage of Employees Attending Training at Least 7 Days/Year',
     bahagian: 'BPSM',
     sasaran: 100,
     pencapaian: 65,
@@ -64,6 +66,7 @@ const defaultKpiData = [
     terasId: 'T1',
     terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
     title: 'Peratusan Transaksi Perkhidmatan Atas Talian (E-Perkhidmatan)',
+    titleEn: 'Percentage of Online Service Transactions (E-Services)',
     bahagian: 'BTMKN',
     sasaran: 85,
     pencapaian: 88,
@@ -78,6 +81,7 @@ const defaultKpiData = [
     terasId: 'T1',
     terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
     title: 'Peratusan Penyelesaian Pengauditan Pengurusan Kewangan Jabatan',
+    titleEn: 'Completion Percentage of Department Financial Management Audits',
     bahagian: 'UAD',
     sasaran: 100,
     pencapaian: 95,
@@ -92,6 +96,7 @@ const defaultKpiData = [
     terasId: 'T1',
     terasName: 'Teras 1: Memantapkan Tata Kelola & Penyampaian Perkhidmatan',
     title: 'Indeks Kepuasan Pelanggan Luaran Terhadap Perkhidmatan Utama',
+    titleEn: 'External Customer Satisfaction Index on Core Services',
     bahagian: 'BKP',
     sasaran: 90,
     pencapaian: 92,
@@ -103,7 +108,141 @@ const defaultKpiData = [
   }
 ];
 
+const dict = {
+  bm: {
+    topBar: 'Portal Rasmi Pejabat Setiausaha Kerajaan Negeri Pulau Pinang',
+    subTitle: 'Sistem Pemantauan Pelan Strategik Organisasi (PSO)',
+    title: 'DASHBOARD PRESTASI PELAN STRATEGIK ORGANISASI',
+    exportCsv: 'Eksport Laporan (CSV)',
+    print: 'Cetak Laporan',
+    modAwam: 'Mod Awam',
+    logOut: 'Log Keluar',
+    logIn: 'Log Masuk Pentadbir',
+    filterTitle: 'Pilihan Bahagian / Unit Organisasi (14 Bahagian)',
+    showAll: 'Papar Keseluruhan PSUKPP',
+    all14: 'KESELURUHAN',
+    kpiUnit: 'KPI',
+    adminPanel: 'Sesi Pentadbir Aktif',
+    adminLocked: 'Kawalan data dikunci khusus untuk',
+    adminFull: 'Kebenaran Pentadbir Utama (Semua Bahagian/Unit).',
+    addRecord: 'Tambah Rekod KPI',
+    auditLog: 'Log Sejarah Audit',
+    resetDefault: 'Reset Data Asal',
+    avgScore: 'Purata Pencapaian',
+    kpiRatio: 'Nisbah KPI Terpilih',
+    totalKpi: 'Jumlah Inisiatif',
+    monitoringStatus: 'Status Pemantauan Aktif',
+    targetMet: 'Mencapai Sasaran',
+    inAttention: 'Dalam Perhatian',
+    requiresAction: 'Memerlukan Intervensi',
+    filterHeader: 'Tapisan Carian & Parameter',
+    resetFilter: 'Semak Semula Tapisan',
+    searchPlaceholder: 'Kata kunci tajuk / kod...',
+    strategicPillar: 'Teras Strategik',
+    allPillars: 'Semua Teras Strategik',
+    deptUnit: 'Bahagian / Unit',
+    allDepts: 'Semua Bahagian (14 Unit)',
+    performanceStatus: 'Status Prestasi',
+    allStatus: 'Semua Status Prestasi',
+    statusGreen: 'Hijau (Mencapai Sasaran)',
+    statusYellow: 'Kuning (Dalam Perhatian)',
+    statusRed: 'Merah (Memerlukan Intervensi)',
+    pieChartTitle: 'Analisis Taburan Status Inisiatif',
+    trendTitle: 'Purata Pencapaian Mengikut Suku Tahun (Q1-Q4)',
+    tableTitle: 'SENARAI STRATEGIK & KPI ORGANISASI',
+    recordsShown: 'Paparan Rekod',
+    colCode: 'Kod Rekod',
+    colTitle: 'Pernyataan KPI & Inisiatif',
+    colDept: 'Bahagian',
+    colTarget: 'Sasaran',
+    colAchieved: 'Pencapaian',
+    colStatus: 'Status Prestasi',
+    colAction: 'Tindakan',
+    detail: 'Perincian',
+    close: 'Tutup',
+    edit: 'Edit',
+    delete: 'Padam',
+    detailTitle: 'Maklumat Perincian KPI',
+    owner: 'Pemilik Rekod',
+    annualTarget: 'Sasaran Tahunan',
+    currentScore: 'Pencapaian Semasa',
+    riskMitigation: 'Pengurusan Risiko & Intervensi',
+    delayCause: 'Punca Kelewatan',
+    interventionAction: 'Tindakan Intervensi',
+    quarterlyBreakdown: 'Pencapaian Mengikut Suku Tahun',
+    q1: 'Suku 1 (Q1)', q2: 'Suku 2 (Q2)', q3: 'Suku 3 (Q3)', q4: 'Suku 4 (Q4)',
+    noRecord: 'Tiada rekod ditemui mengikut kriteria tapisan.'
+  },
+  en: {
+    topBar: 'Official Portal of the Penang State Secretary Office',
+    subTitle: 'Organizational Strategic Plan (PSO) Monitoring System',
+    title: 'ORGANIZATIONAL STRATEGIC PLAN PERFORMANCE DASHBOARD',
+    exportCsv: 'Export Report (CSV)',
+    print: 'Print Report',
+    modAwam: 'Public Mode',
+    logOut: 'Log Out',
+    logIn: 'Admin Login',
+    filterTitle: 'Select Department / Unit (14 Divisions)',
+    showAll: 'View All PSUKPP',
+    all14: 'OVERALL',
+    kpiUnit: 'KPIs',
+    adminPanel: 'Active Admin Session',
+    adminLocked: 'Data control is strictly locked for',
+    adminFull: 'Super Admin Access (All 14 Divisions).',
+    addRecord: 'Add KPI Record',
+    auditLog: 'Audit History Logs',
+    resetDefault: 'Reset Default Data',
+    avgScore: 'Average Score',
+    kpiRatio: 'Ratio of Selected KPIs',
+    totalKpi: 'Total Initiatives',
+    monitoringStatus: 'Active Monitoring Status',
+    targetMet: 'Target Met',
+    inAttention: 'Needs Attention',
+    requiresAction: 'Requires Intervention',
+    filterHeader: 'Search Filters & Parameters',
+    resetFilter: 'Reset Filters',
+    searchPlaceholder: 'Search title / code...',
+    strategicPillar: 'Strategic Pillar',
+    allPillars: 'All Strategic Pillars',
+    deptUnit: 'Division / Unit',
+    allDepts: 'All Divisions (14 Units)',
+    performanceStatus: 'Performance Status',
+    allStatus: 'All Performance Statuses',
+    statusGreen: 'Green (Target Met)',
+    statusYellow: 'Yellow (Needs Attention)',
+    statusRed: 'Red (Requires Intervention)',
+    pieChartTitle: 'Initiative Status Distribution Analysis',
+    trendTitle: 'Quarterly Average Achievement (Q1-Q4)',
+    tableTitle: 'STRATEGIC INITIATIVES & KPI LIST',
+    recordsShown: 'Records Shown',
+    colCode: 'Record Code',
+    colTitle: 'KPI & Initiative Statement',
+    colDept: 'Division',
+    colTarget: 'Target',
+    colAchieved: 'Achieved',
+    colStatus: 'Performance Status',
+    colAction: 'Action',
+    detail: 'Details',
+    close: 'Close',
+    edit: 'Edit',
+    delete: 'Delete',
+    detailTitle: 'KPI Detailed Information',
+    owner: 'Record Owner',
+    annualTarget: 'Annual Target',
+    currentScore: 'Current Score',
+    riskMitigation: 'Risk Management & Mitigation',
+    delayCause: 'Cause of Delay',
+    interventionAction: 'Intervention Action',
+    quarterlyBreakdown: 'Quarterly Achievement Breakdown',
+    q1: 'Quarter 1 (Q1)', q2: 'Quarter 2 (Q2)', q3: 'Quarter 3 (Q3)', q4: 'Quarter 4 (Q4)',
+    noRecord: 'No records found matching the filter criteria.'
+  }
+};
+
 export default function PSUKPPPage() {
+  const [lang, setLang] = useState<'bm' | 'en'>('bm');
+  const t = dict[lang];
+
   const [kpiList, setKpiList] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [userRole, setUserRole] = useState<string>('PUBLIC');
@@ -205,7 +344,7 @@ export default function PSUKPPPage() {
         setLoginError('');
         setLoginUsername(''); setLoginPassword('');
       } else {
-        setLoginError('ID Pengguna atau Kata Laluan Tidak Sah. Sila rujuk Pentadbir Sistem.');
+        setLoginError('ID Pengguna atau Kata Laluan Tidak Sah.');
       }
     }
   };
@@ -255,13 +394,13 @@ export default function PSUKPPPage() {
         addAuditLog(`Memadam rekod ${id}`);
         if (selectedKpiDetail?.id === id) setSelectedKpiDetail(null);
       } catch (e) {
-        alert('Gagal memadam data dari pangkalan data.');
+        alert('Gagal memadam data.');
       }
     }
   };
 
   const handleResetData = async () => {
-    if (confirm('Sahkan tindakan penetapan semula pangkalan data kepada tetapan asal?')) {
+    if (confirm('Sahkan tindakan penetapan semula pangkalan data?')) {
       try {
         for (const item of defaultKpiData) {
           await setDoc(doc(db, 'kpis', item.id), item);
@@ -310,14 +449,15 @@ export default function PSUKPPPage() {
       const matchTeras = selectedTeras === 'ALL' || item.terasId === selectedTeras;
       const matchBahagian = activeBahagianFilter === 'ALL' || item.bahagian === activeBahagianFilter;
       const matchStatus = selectedStatus === 'ALL' || item.status === selectedStatus;
+      const displayTitle = lang === 'en' && item.titleEn ? item.titleEn : item.title;
       const matchSearch =
-        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        displayTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.pemilik.toLowerCase().includes(searchTerm.toLowerCase());
 
       return matchTeras && matchBahagian && matchStatus && matchSearch;
     });
-  }, [kpiList, selectedTeras, activeBahagianFilter, selectedStatus, searchTerm]);
+  }, [kpiList, selectedTeras, activeBahagianFilter, selectedStatus, searchTerm, lang]);
 
   const stats = useMemo(() => {
     const total = filteredData.length;
@@ -343,72 +483,86 @@ export default function PSUKPPPage() {
   const getY = (val: number) => 85 - (val / 100) * 70;
 
   return (
-    <div className="min-h-screen bg-slate-100 text-slate-900 font-sans antialiased">
+    <div className="min-h-screen bg-[#FFFFFF] text-[#00AEEF] font-sans antialiased">
       
-      {/* HEADER TOP-BAR KORPORAT KERAJAAN NEGERI */}
-      <div className="bg-slate-950 text-slate-300 text-[11px] py-1 px-4 border-b border-slate-800">
-        <div className="max-w-7xl mx-auto flex justify-between items-center font-medium">
-          <span>Portal Rasmi Pejabat Setiausaha Kerajaan Negeri Pulau Pinang</span>
-          <span>Sistem Pemantauan Pelan Strategik Organisasi (PSO)</span>
+      {/* HEADER TOP-BAR - EXCLUSIVELY #00AEEF, #FFF200 & #FFFFFF */}
+      <div className="bg-[#00AEEF] text-[#FFFFFF] text-[11px] py-1.5 px-4 border-b border-[#FFF200]">
+        <div className="max-w-7xl mx-auto flex justify-between items-center font-bold">
+          <span>{t.topBar}</span>
+          <div className="flex items-center space-x-4">
+            <span>{t.subTitle}</span>
+            <button 
+              onClick={() => setLang(lang === 'bm' ? 'en' : 'bm')}
+              className="bg-[#FFF200] text-[#00AEEF] font-black text-[10px] px-2.5 py-0.5 rounded tracking-wider uppercase shadow-xs transition hover:brightness-105"
+            >
+              {lang === 'bm' ? '🌐 ENGLISH' : '🌐 BAHASA MELAYU'}
+            </button>
+          </div>
         </div>
       </div>
 
-      <header className="bg-slate-900 text-white border-b-4 border-amber-500 sticky top-0 z-30 shadow-lg">
+      {/* HEADER MAIN */}
+      <header className="bg-[#00AEEF] text-[#FFFFFF] border-b-4 border-[#FFF200] sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
           <div className="flex items-center space-x-4">
-            <div className="p-2 bg-white rounded shadow-sm border border-amber-400/40">
-              <svg className="h-12 w-10 text-blue-950" viewBox="0 0 100 130">
-                <path d="M50,10 L50,40 M42,20 L58,20 M40,28 L60,28" stroke="#008000" strokeWidth="4" strokeLinecap="round"/>
-                <circle cx="50" cy="8" r="4" fill="#008000"/>
-                <path d="M10,40 L90,40 L90,90 Q50,120 10,90 Z" fill="#FFCC00" stroke="#000000" strokeWidth="3"/>
-                <path d="M20,65 L80,65 M35,45 L35,65 M65,45 L65,65 M35,45 L50,65 L65,45" stroke="#000000" strokeWidth="2.5" fill="none"/>
-                <path d="M10,75 Q30,70 50,75 T90,75 M10,83 Q30,78 50,83 T90,83 M10,91 Q30,86 50,91 T90,91" stroke="#0088CC" strokeWidth="3" fill="none"/>
-                <path d="M5,110 Q50,125 95,110 L90,120 Q50,130 10,120 Z" fill="#FFCC00" stroke="#000000" strokeWidth="1.5"/>
-                <text x="50" y="119" textAnchor="middle" fill="#000000" fontSize="7" fontWeight="bold" fontFamily="serif">BERSATU DAN SETIA</text>
+            {/* JATA NEGERI PULAU PINANG INLINE SVG */}
+            <div className="p-1.5 bg-[#FFFFFF] rounded shadow-xs border border-[#FFF200]">
+              <svg className="h-12 w-10 text-[#00AEEF]" viewBox="0 0 100 130">
+                <path d="M50,10 L50,40 M42,20 L58,20 M40,28 L60,28" stroke="#00AEEF" strokeWidth="4" strokeLinecap="round"/>
+                <circle cx="50" cy="8" r="4" fill="#00AEEF"/>
+                <path d="M10,40 L90,40 L90,90 Q50,120 10,90 Z" fill="#FFF200" stroke="#00AEEF" strokeWidth="3"/>
+                <path d="M20,65 L80,65 M35,45 L35,65 M65,45 L65,65 M35,45 L50,65 L65,45" stroke="#00AEEF" strokeWidth="2.5" fill="none"/>
+                <path d="M10,75 Q30,70 50,75 T90,75 M10,83 Q30,78 50,83 T90,83 M10,91 Q30,86 50,91 T90,91" stroke="#00AEEF" strokeWidth="3" fill="none"/>
+                <path d="M5,110 Q50,125 95,110 L90,120 Q50,130 10,120 Z" fill="#FFF200" stroke="#00AEEF" strokeWidth="1.5"/>
+                <text x="50" y="119" textAnchor="middle" fill="#00AEEF" fontSize="7" fontWeight="bold" fontFamily="serif">BERSATU DAN SETIA</text>
               </svg>
             </div>
 
             <div>
-              <div className="text-[11px] font-extrabold tracking-widest text-amber-400 uppercase">PEJABAT SETIAUSAHA KERAJAAN NEGERI PULAU PINANG</div>
-              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white uppercase">DASHBOARD PRESTASI PELAN STRATEGIK ORGANISASI</h1>
+              <div className="text-[11px] font-black tracking-widest text-[#FFF200] uppercase">
+                PEJABAT SETIAUSAHA KERAJAAN NEGERI PULAU PINANG
+              </div>
+              <h1 className="text-xl sm:text-2xl font-black tracking-tight text-[#FFFFFF] uppercase">
+                {t.title}
+              </h1>
             </div>
           </div>
 
           <div className="flex items-center space-x-2">
             <button
               onClick={handleExportCSV}
-              className="px-3.5 py-2 text-xs font-bold rounded bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 transition"
+              className="px-3.5 py-2 text-xs font-bold rounded bg-[#00AEEF] hover:bg-[#0096ce] text-[#FFFFFF] border border-[#FFF200] transition shadow-xs"
             >
-              Eksport Laporan (CSV)
+              {t.exportCsv}
             </button>
 
             <button
               onClick={() => window.print()}
-              className="px-3.5 py-2 text-xs font-bold rounded bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 transition"
+              className="px-3.5 py-2 text-xs font-bold rounded bg-[#00AEEF] hover:bg-[#0096ce] text-[#FFFFFF] border border-[#FFF200] transition shadow-xs"
             >
-              Cetak Cetakan Rasmi
+              {t.print}
             </button>
 
-            <div className="h-6 w-px bg-slate-700 mx-1"></div>
+            <div className="h-6 w-px bg-[#FFF200] mx-1"></div>
 
             {userRole !== 'PUBLIC' ? (
               <div className="flex items-center space-x-2">
-                <span className="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-extrabold text-xs tracking-wider">
+                <span className="px-2.5 py-1 rounded bg-[#FFF200] text-[#00AEEF] font-black text-xs tracking-wider border border-[#00AEEF]">
                   {userRole}
                 </span>
                 <button
                   onClick={handleLogout}
-                  className="px-3 py-1.5 text-xs font-bold rounded bg-rose-700 hover:bg-rose-600 text-white transition"
+                  className="px-3 py-1.5 text-xs font-bold rounded bg-[#FFFFFF] hover:bg-slate-100 text-[#00AEEF] border border-[#00AEEF] transition"
                 >
-                  Log Keluar
+                  {t.logOut}
                 </button>
               </div>
             ) : (
               <button
                 onClick={() => setShowLoginModal(true)}
-                className="px-4 py-2 text-xs font-extrabold rounded bg-amber-500 hover:bg-amber-400 text-slate-950 transition tracking-wide uppercase"
+                className="px-4 py-2 text-xs font-black rounded bg-[#FFF200] hover:brightness-105 text-[#00AEEF] border border-[#00AEEF] transition tracking-wide uppercase shadow-xs"
               >
-                Log Masuk Pentadbir
+                {t.logIn}
               </button>
             )}
           </div>
@@ -419,24 +573,24 @@ export default function PSUKPPPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
         {loading ? (
-          <div className="p-16 text-center text-slate-600 font-bold bg-white rounded-lg border border-slate-300 shadow-xs">
-            Memuatkan Pangkalan Data Prestasi PSO...
+          <div className="p-16 text-center text-[#00AEEF] font-bold bg-[#FFFFFF] rounded-lg border-2 border-[#00AEEF] shadow-xs">
+            Memuatkan Pangkalan Data...
           </div>
         ) : (
           <>
-            {/* SELEKSI 14 BAHAGIAN APABILA MOD AWAM / SUPER ADMIN */}
+            {/* SELEKSI 14 BAHAGIAN */}
             {!loggedInBahagianCode && (
-              <section className="bg-white rounded-lg border border-slate-300 shadow-xs overflow-hidden">
-                <div className="px-5 py-3 bg-slate-100 border-b border-slate-300 flex justify-between items-center">
-                  <span className="text-xs font-black uppercase tracking-wider text-slate-800">
-                    Pilihan Bahagian / Unit Organisasi (14 Bahagian)
+              <section className="bg-[#FFFFFF] rounded-lg border-2 border-[#00AEEF] shadow-xs overflow-hidden">
+                <div className="px-5 py-3 bg-[#00AEEF] border-b-2 border-[#FFF200] flex justify-between items-center text-[#FFFFFF]">
+                  <span className="text-xs font-black uppercase tracking-wider text-[#FFF200]">
+                    {t.filterTitle}
                   </span>
                   {selectedBahagian !== 'ALL' && (
                     <button
                       onClick={() => setSelectedBahagian('ALL')}
-                      className="text-xs font-extrabold text-blue-900 hover:underline"
+                      className="text-xs font-extrabold text-[#FFF200] hover:underline"
                     >
-                      Papar Keseluruhan PSUKPP
+                      {t.showAll}
                     </button>
                   )}
                 </div>
@@ -444,13 +598,13 @@ export default function PSUKPPPage() {
                 <div className="p-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
                   <button
                     onClick={() => setSelectedBahagian('ALL')}
-                    className={`p-2.5 rounded text-center font-bold text-xs border transition ${
+                    className={`p-2.5 rounded text-center font-black text-xs border-2 transition ${
                       selectedBahagian === 'ALL'
-                        ? 'bg-slate-900 text-amber-400 border-slate-950 font-black shadow-xs'
-                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                        ? 'bg-[#FFF200] text-[#00AEEF] border-[#00AEEF] shadow-xs'
+                        : 'bg-[#FFFFFF] border-[#00AEEF] text-[#00AEEF] hover:bg-slate-50'
                     }`}
                   >
-                    <span className="block text-xs uppercase tracking-wider">KESELURUHAN</span>
+                    <span className="block text-xs uppercase tracking-wider">{t.all14}</span>
                   </button>
 
                   {BAHAGIAN_LIST.map((b) => {
@@ -460,15 +614,15 @@ export default function PSUKPPPage() {
                       <button
                         key={b.code}
                         onClick={() => setSelectedBahagian(b.code)}
-                        className={`p-2.5 rounded text-center font-bold text-xs border transition ${
+                        className={`p-2.5 rounded text-center font-black text-xs border-2 transition ${
                           isSelected
-                            ? 'bg-slate-900 text-amber-400 border-slate-950 font-black shadow-xs'
-                            : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+                            ? 'bg-[#FFF200] text-[#00AEEF] border-[#00AEEF] shadow-xs'
+                            : 'bg-[#FFFFFF] border-[#00AEEF] text-[#00AEEF] hover:bg-slate-50'
                         }`}
                         title={b.name}
                       >
                         <span className="truncate block font-mono font-bold">{b.code}</span>
-                        <span className="text-[10px] text-slate-500 font-normal">({count} KPI)</span>
+                        <span className="text-[10px] opacity-80 font-normal">({count} {t.kpiUnit})</span>
                       </button>
                     );
                   })}
@@ -478,132 +632,132 @@ export default function PSUKPPPage() {
 
             {/* BAR KAWALAN ADMIN */}
             {userRole !== 'PUBLIC' && (
-              <div className="p-4 bg-amber-50 rounded-lg border border-amber-300 flex flex-wrap justify-between items-center gap-4">
+              <div className="p-4 bg-[#FFFFFF] rounded-lg border-2 border-[#FFF200] shadow-xs flex flex-wrap justify-between items-center gap-4">
                 <div>
-                  <h3 className="text-xs font-black text-amber-950 uppercase tracking-wider">
-                    Sesi Pentadbir Aktif: {userRole}
+                  <h3 className="text-xs font-black text-[#00AEEF] uppercase tracking-wider">
+                    {t.adminPanel}: {userRole}
                   </h3>
-                  <p className="text-xs text-amber-900 font-medium mt-0.5">
+                  <p className="text-xs text-[#00AEEF] font-medium mt-0.5">
                     {loggedInBahagianCode 
-                      ? `Kawalan data dikunci khusus untuk ${BAHAGIAN_LIST.find(b => b.code === loggedInBahagianCode)?.name}.`
-                      : 'Kebenaran Pentadbir Utama (Semua Bahagian/Unit).'}
+                      ? `${t.adminLocked} ${BAHAGIAN_LIST.find(b => b.code === loggedInBahagianCode)?.name}.`
+                      : t.adminFull}
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={handleOpenAdd}
-                    className="px-3.5 py-2 text-xs font-bold rounded bg-emerald-700 hover:bg-emerald-800 text-white transition shadow-xs uppercase tracking-wide"
+                    className="px-3.5 py-2 text-xs font-black rounded bg-[#FFF200] hover:brightness-105 text-[#00AEEF] border border-[#00AEEF] transition shadow-xs uppercase tracking-wide"
                   >
-                    Tambah Rekod KPI
+                    {t.addRecord}
                   </button>
 
                   <button
                     onClick={() => setShowLogModal(true)}
-                    className="px-3.5 py-2 text-xs font-bold rounded bg-slate-900 hover:bg-slate-800 text-white transition shadow-xs uppercase tracking-wide"
+                    className="px-3.5 py-2 text-xs font-black rounded bg-[#00AEEF] hover:bg-[#0096ce] text-[#FFFFFF] border border-[#FFF200] transition shadow-xs uppercase tracking-wide"
                   >
-                    Log Sejarah Audit ({auditLogs.length})
+                    {t.auditLog} ({auditLogs.length})
                   </button>
 
                   {userRole === 'SUPER_ADMIN' && (
                     <button
                       onClick={handleResetData}
-                      className="px-3.5 py-2 text-xs font-bold rounded bg-slate-200 hover:bg-slate-300 text-slate-800 transition"
+                      className="px-3.5 py-2 text-xs font-bold rounded bg-[#FFFFFF] text-[#00AEEF] border border-[#00AEEF] transition hover:bg-slate-50"
                     >
-                      Reset Data Asal
+                      {t.resetDefault}
                     </button>
                   )}
                 </div>
               </div>
             )}
 
-            {/* 1. KAD METRIK PRESTASI KORPORAT */}
+            {/* 1. KAD METRIK PRESTASI */}
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-              <div className="p-5 bg-white rounded-lg border border-slate-300 shadow-xs flex flex-col justify-between border-t-4 border-t-blue-900">
-                <span className="text-[11px] font-black uppercase tracking-wider text-slate-500">Purata Pencapaian</span>
+              <div className="p-5 bg-[#FFFFFF] rounded-lg border-2 border-[#00AEEF] shadow-xs flex flex-col justify-between border-t-8 border-t-[#00AEEF]">
+                <span className="text-[11px] font-black uppercase tracking-wider text-[#00AEEF]">{t.avgScore}</span>
                 <div className="mt-3">
-                  <div className="text-3xl font-black text-blue-950">{stats.avgScore}%</div>
-                  <div className="text-xs text-slate-600 font-medium mt-1">Nisbah {stats.total} KPI Terpilih</div>
+                  <div className="text-3xl font-black text-[#00AEEF]">{stats.avgScore}%</div>
+                  <div className="text-xs text-[#00AEEF] font-medium mt-1">{t.kpiRatio}: {stats.total}</div>
                 </div>
-                <div className="w-full bg-slate-200 h-2 rounded mt-3 overflow-hidden">
-                  <div className="bg-blue-900 h-full rounded transition-all duration-500" style={{ width: `${stats.avgScore}%` }}></div>
+                <div className="w-full bg-slate-100 h-2.5 rounded mt-3 overflow-hidden border border-[#00AEEF]">
+                  <div className="bg-[#00AEEF] h-full rounded transition-all duration-500" style={{ width: `${stats.avgScore}%` }}></div>
                 </div>
               </div>
 
-              <div className="p-5 bg-white rounded-lg border border-slate-300 shadow-xs flex flex-col justify-between border-t-4 border-t-slate-800">
-                <span className="text-[11px] font-black uppercase tracking-wider text-slate-500">Jumlah Inisiatif</span>
+              <div className="p-5 bg-[#FFFFFF] rounded-lg border-2 border-[#00AEEF] shadow-xs flex flex-col justify-between border-t-8 border-t-[#00AEEF]">
+                <span className="text-[11px] font-black uppercase tracking-wider text-[#00AEEF]">{t.totalKpi}</span>
                 <div className="mt-3">
-                  <div className="text-3xl font-black text-slate-900">{stats.total}</div>
-                  <div className="text-xs text-slate-600 font-medium mt-1">Inisiatif Pemantauan</div>
+                  <div className="text-3xl font-black text-[#00AEEF]">{stats.total}</div>
+                  <div className="text-xs text-[#00AEEF] font-medium mt-1">{t.monitoringStatus}</div>
                 </div>
-                <span className="text-[11px] text-slate-500 font-bold mt-3">Status Aktif</span>
+                <span className="text-[11px] text-[#00AEEF] font-bold mt-3">PSUKPP</span>
               </div>
 
-              <div className="p-5 bg-white rounded-lg border border-slate-300 shadow-xs flex flex-col justify-between border-t-4 border-t-emerald-600">
-                <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800">Mencapai Sasaran</span>
+              <div className="p-5 bg-[#FFFFFF] rounded-lg border-2 border-[#00AEEF] shadow-xs flex flex-col justify-between border-t-8 border-t-[#FFF200]">
+                <span className="text-[11px] font-black uppercase tracking-wider text-[#00AEEF]">{t.targetMet}</span>
                 <div className="mt-3">
-                  <div className="text-3xl font-black text-emerald-700">{stats.hijau}</div>
-                  <div className="text-xs text-slate-600 font-medium mt-1">
-                    {stats.total > 0 ? Math.round((stats.hijau / stats.total) * 100) : 0}% Daripada Jumlah
+                  <div className="text-3xl font-black text-[#00AEEF]">{stats.hijau}</div>
+                  <div className="text-xs text-[#00AEEF] font-medium mt-1">
+                    {stats.total > 0 ? Math.round((stats.hijau / stats.total) * 100) : 0}%
                   </div>
                 </div>
-                <span className="text-[11px] text-emerald-800 font-bold mt-3">Status Hijau</span>
+                <span className="text-[11px] text-[#00AEEF] font-extrabold mt-3 bg-[#FFF200] px-2 py-0.5 rounded text-center">HIJAU</span>
               </div>
 
-              <div className="p-5 bg-white rounded-lg border border-slate-300 shadow-xs flex flex-col justify-between border-t-4 border-t-amber-500">
-                <span className="text-[11px] font-black uppercase tracking-wider text-amber-800">Dalam Perhatian</span>
+              <div className="p-5 bg-[#FFFFFF] rounded-lg border-2 border-[#00AEEF] shadow-xs flex flex-col justify-between border-t-8 border-t-[#FFF200]">
+                <span className="text-[11px] font-black uppercase tracking-wider text-[#00AEEF]">{t.inAttention}</span>
                 <div className="mt-3">
-                  <div className="text-3xl font-black text-amber-600">{stats.kuning}</div>
-                  <div className="text-xs text-slate-600 font-medium mt-1">
-                    {stats.total > 0 ? Math.round((stats.kuning / stats.total) * 100) : 0}% Daripada Jumlah
+                  <div className="text-3xl font-black text-[#00AEEF]">{stats.kuning}</div>
+                  <div className="text-xs text-[#00AEEF] font-medium mt-1">
+                    {stats.total > 0 ? Math.round((stats.kuning / stats.total) * 100) : 0}%
                   </div>
                 </div>
-                <span className="text-[11px] text-amber-800 font-bold mt-3">Status Kuning</span>
+                <span className="text-[11px] text-[#00AEEF] font-extrabold mt-3 bg-[#FFF200] px-2 py-0.5 rounded text-center">KUNING</span>
               </div>
 
-              <div className="p-5 bg-white rounded-lg border border-slate-300 shadow-xs flex flex-col justify-between border-t-4 border-t-rose-600">
-                <span className="text-[11px] font-black uppercase tracking-wider text-rose-800">Memerlukan Intervensi</span>
+              <div className="p-5 bg-[#FFFFFF] rounded-lg border-2 border-[#00AEEF] shadow-xs flex flex-col justify-between border-t-8 border-t-[#00AEEF]">
+                <span className="text-[11px] font-black uppercase tracking-wider text-[#00AEEF]">{t.requiresAction}</span>
                 <div className="mt-3">
-                  <div className="text-3xl font-black text-rose-700">{stats.merah}</div>
-                  <div className="text-xs text-slate-600 font-medium mt-1">
-                    {stats.total > 0 ? Math.round((stats.merah / stats.total) * 100) : 0}% Daripada Jumlah
+                  <div className="text-3xl font-black text-[#00AEEF]">{stats.merah}</div>
+                  <div className="text-xs text-[#00AEEF] font-medium mt-1">
+                    {stats.total > 0 ? Math.round((stats.merah / stats.total) * 100) : 0}%
                   </div>
                 </div>
-                <span className="text-[11px] text-rose-800 font-bold mt-3">Status Merah</span>
+                <span className="text-[11px] text-[#FFFFFF] bg-[#00AEEF] font-extrabold mt-3 px-2 py-0.5 rounded text-center border border-[#FFF200]">MERAH</span>
               </div>
             </section>
 
             {/* 2. PANEL FILTER & CARIAN */}
-            <section className="bg-white p-5 rounded-lg border border-slate-300 shadow-xs">
-              <div className="flex justify-between items-center pb-3 mb-4 border-b border-slate-200">
-                <span className="text-xs font-black uppercase tracking-wider text-slate-800">Tapisan Carian & Parameter</span>
+            <section className="bg-[#FFFFFF] p-5 rounded-lg border-2 border-[#00AEEF] shadow-xs">
+              <div className="flex justify-between items-center pb-3 mb-4 border-b-2 border-[#00AEEF]">
+                <span className="text-xs font-black uppercase tracking-wider text-[#00AEEF]">{t.filterHeader}</span>
                 <button
                   onClick={() => { setSelectedTeras('ALL'); if (!loggedInBahagianCode) setSelectedBahagian('ALL'); setSelectedStatus('ALL'); setSearchTerm(''); }}
-                  className="text-xs font-bold text-blue-900 hover:underline"
+                  className="text-xs font-black text-[#00AEEF] hover:underline"
                 >
-                  Semak Semula Tapisan
+                  {t.resetFilter}
                 </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div>
-                  <label className="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Cari Kata Kunci</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-[#00AEEF] mb-1">Carian Kata Kunci</label>
                   <input
                     type="text"
-                    placeholder="Kata kunci tajuk / kod..."
+                    placeholder={t.searchPlaceholder}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-300 font-medium focus:border-slate-800 outline-none bg-slate-50"
+                    className="w-full px-3 py-2 text-xs rounded border-2 border-[#00AEEF] font-bold outline-none bg-[#FFFFFF] text-[#00AEEF]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Teras Strategik</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-[#00AEEF] mb-1">{t.strategicPillar}</label>
                   <select
                     value={selectedTeras}
                     onChange={(e) => setSelectedTeras(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-300 font-medium focus:border-slate-800 outline-none bg-slate-50"
+                    className="w-full px-3 py-2 text-xs rounded border-2 border-[#00AEEF] font-bold outline-none bg-[#FFFFFF] text-[#00AEEF]"
                   >
-                    <option value="ALL">Semua Teras Strategik</option>
+                    <option value="ALL">{t.allPillars}</option>
                     <option value="T1">Teras 1: Tata Kelola</option>
                     <option value="T2">Teras 2: Modal Insan</option>
                     <option value="T3">Teras 3: Pembangunan</option>
@@ -612,16 +766,16 @@ export default function PSUKPPPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Bahagian / Unit</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-[#00AEEF] mb-1">{t.deptUnit}</label>
                   <select
                     disabled={!!loggedInBahagianCode}
                     value={activeBahagianFilter}
                     onChange={(e) => setSelectedBahagian(e.target.value)}
-                    className={`w-full px-3 py-2 text-xs rounded border border-slate-300 font-medium outline-none bg-slate-50 ${
+                    className={`w-full px-3 py-2 text-xs rounded border-2 border-[#00AEEF] font-bold outline-none bg-[#FFFFFF] text-[#00AEEF] ${
                       loggedInBahagianCode ? 'opacity-70 cursor-not-allowed' : ''
                     }`}
                   >
-                    <option value="ALL">Semua Bahagian (14 Unit)</option>
+                    <option value="ALL">{t.allDepts}</option>
                     {BAHAGIAN_LIST.map(b => (
                       <option key={b.code} value={b.code}>{b.code} - {b.name}</option>
                     ))}
@@ -629,16 +783,16 @@ export default function PSUKPPPage() {
                 </div>
 
                 <div>
-                  <label className="block text-[11px] font-extrabold uppercase text-slate-600 mb-1">Status Prestasi</label>
+                  <label className="block text-[11px] font-extrabold uppercase text-[#00AEEF] mb-1">{t.performanceStatus}</label>
                   <select
                     value={selectedStatus}
                     onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="w-full px-3 py-2 text-xs rounded border border-slate-300 font-medium focus:border-slate-800 outline-none bg-slate-50"
+                    className="w-full px-3 py-2 text-xs rounded border-2 border-[#00AEEF] font-bold outline-none bg-[#FFFFFF] text-[#00AEEF]"
                   >
-                    <option value="ALL">Semua Status Prestasi</option>
-                    <option value="hijau">Hijau (Mencapai Sasaran)</option>
-                    <option value="kuning">Kuning (Dalam Perhatian)</option>
-                    <option value="merah">Merah (Memerlukan Intervensi)</option>
+                    <option value="ALL">{t.allStatus}</option>
+                    <option value="hijau">{t.statusGreen}</option>
+                    <option value="kuning">{t.statusYellow}</option>
+                    <option value="merah">{t.statusRed}</option>
                   </select>
                 </div>
               </div>
@@ -646,16 +800,16 @@ export default function PSUKPPPage() {
 
             {/* 3. PAPARAN GRAF ANALITIK */}
             <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white p-5 rounded-lg border border-slate-300 shadow-xs">
-                <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 mb-4">
-                  Analisis Taburan Status Inisiatif
+              <div className="bg-[#FFFFFF] p-5 rounded-lg border-2 border-[#00AEEF] shadow-xs">
+                <h2 className="text-xs font-black uppercase tracking-wider text-[#00AEEF] mb-4">
+                  {t.pieChartTitle}
                 </h2>
 
                 <div className="flex flex-col sm:flex-row items-center justify-around py-2">
                   <div className="relative w-40 h-40">
                     <svg viewBox="0 0 36 36" className="w-full h-full transform -rotate-90">
                       <path
-                        className="text-slate-200"
+                        className="text-slate-100"
                         strokeWidth="4"
                         stroke="currentColor"
                         fill="none"
@@ -663,7 +817,7 @@ export default function PSUKPPPage() {
                       />
                       {stats.pctHijau > 0 && (
                         <path
-                          className="text-emerald-600 transition-all duration-700"
+                          className="text-[#00AEEF] transition-all duration-700"
                           strokeDasharray={`${stats.pctHijau}, 100`}
                           strokeDashoffset="0"
                           strokeWidth="4"
@@ -674,7 +828,7 @@ export default function PSUKPPPage() {
                       )}
                       {stats.pctKuning > 0 && (
                         <path
-                          className="text-amber-500 transition-all duration-700"
+                          className="text-[#FFF200] transition-all duration-700"
                           strokeDasharray={`${stats.pctKuning}, 100`}
                           strokeDashoffset={`-${stats.pctHijau}`}
                           strokeWidth="4"
@@ -685,7 +839,7 @@ export default function PSUKPPPage() {
                       )}
                       {stats.pctMerah > 0 && (
                         <path
-                          className="text-rose-600 transition-all duration-700"
+                          className="text-[#00AEEF] opacity-50 transition-all duration-700"
                           strokeDasharray={`${stats.pctMerah}, 100`}
                           strokeDashoffset={`-${stats.pctHijau + stats.pctKuning}`}
                           strokeWidth="4"
@@ -696,41 +850,41 @@ export default function PSUKPPPage() {
                       )}
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                      <span className="text-2xl font-black text-slate-900">{stats.total}</span>
-                      <span className="text-[10px] uppercase font-bold text-slate-500">JUMLAH KPI</span>
+                      <span className="text-2xl font-black text-[#00AEEF]">{stats.total}</span>
+                      <span className="text-[10px] uppercase font-bold text-[#00AEEF]">JUMLAH KPI</span>
                     </div>
                   </div>
 
-                  <div className="mt-4 sm:mt-0 space-y-2.5 text-xs font-bold">
+                  <div className="mt-4 sm:mt-0 space-y-2.5 text-xs font-bold text-[#00AEEF]">
                     <div className="flex items-center space-x-2">
-                      <span className="w-3 h-3 rounded-full bg-emerald-600 inline-block"></span>
-                      <span className="text-slate-700">Mencapai Sasaran:</span>
-                      <span className="text-slate-900 font-black">{stats.hijau}</span>
+                      <span className="w-3.5 h-3.5 rounded-full bg-[#00AEEF] inline-block border border-[#FFF200]"></span>
+                      <span>{t.targetMet}:</span>
+                      <span className="font-black">{stats.hijau}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className="w-3 h-3 rounded-full bg-amber-500 inline-block"></span>
-                      <span className="text-slate-700">Dalam Perhatian:</span>
-                      <span className="text-slate-900 font-black">{stats.kuning}</span>
+                      <span className="w-3.5 h-3.5 rounded-full bg-[#FFF200] inline-block border border-[#00AEEF]"></span>
+                      <span>{t.inAttention}:</span>
+                      <span className="font-black">{stats.kuning}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className="w-3 h-3 rounded-full bg-rose-600 inline-block"></span>
-                      <span className="text-slate-700">Memerlukan Intervensi:</span>
-                      <span className="text-slate-900 font-black">{stats.merah}</span>
+                      <span className="w-3.5 h-3.5 rounded-full bg-[#00AEEF] opacity-50 inline-block border border-[#00AEEF]"></span>
+                      <span>{t.requiresAction}:</span>
+                      <span className="font-black">{stats.merah}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white p-5 rounded-lg border border-slate-300 shadow-xs flex flex-col justify-between">
+              <div className="bg-[#FFFFFF] p-5 rounded-lg border-2 border-[#00AEEF] shadow-xs flex flex-col justify-between">
                 <div className="flex justify-between items-center mb-2">
-                  <h2 className="text-xs font-black uppercase tracking-wider text-slate-800">
-                    Purata Pencapaian Mengikut Suku Tahun (Q1-Q4)
+                  <h2 className="text-xs font-black uppercase tracking-wider text-[#00AEEF]">
+                    {t.trendTitle}
                   </h2>
-                  <span className="text-[10px] bg-slate-900 text-amber-400 px-2 py-0.5 rounded font-bold uppercase tracking-wider">Peratus (%)</span>
+                  <span className="text-[10px] bg-[#00AEEF] text-[#FFF200] px-2 py-0.5 rounded font-bold uppercase tracking-wider">%</span>
                 </div>
 
                 <div className="relative h-44 w-full flex items-end pt-6 pb-2">
-                  <div className="absolute inset-0 flex flex-col justify-between pointer-events-none text-[10px] font-bold text-slate-400 border-b border-slate-200">
+                  <div className="absolute inset-0 flex flex-col justify-between pointer-events-none text-[10px] font-bold text-[#00AEEF] opacity-40 border-b border-[#00AEEF]">
                     <div className="border-b border-slate-100 w-full pt-1">100%</div>
                     <div className="border-b border-slate-100 w-full">50%</div>
                     <div className="w-full pb-1">0%</div>
@@ -739,102 +893,92 @@ export default function PSUKPPPage() {
                   <svg className="w-full h-full overflow-visible z-10" viewBox="0 0 300 100" preserveAspectRatio="none">
                     <polyline
                       fill="none"
-                      stroke="#0f172a"
-                      strokeWidth="3"
+                      stroke="#00AEEF"
+                      strokeWidth="3.5"
                       points={`37.5,${getY(stats.avgQ1)} 112.5,${getY(stats.avgQ2)} 187.5,${getY(stats.avgQ3)} 262.5,${getY(stats.avgQ4)}`}
                     />
-                    <circle cx="37.5" cy={getY(stats.avgQ1)} r="4" className="fill-slate-900 stroke-amber-400 stroke-2" />
-                    <circle cx="112.5" cy={getY(stats.avgQ2)} r="4" className="fill-slate-900 stroke-amber-400 stroke-2" />
-                    <circle cx="187.5" cy={getY(stats.avgQ3)} r="4" className="fill-slate-900 stroke-amber-400 stroke-2" />
-                    <circle cx="262.5" cy={getY(stats.avgQ4)} r="4" className="fill-slate-900 stroke-amber-400 stroke-2" />
+                    <circle cx="37.5" cy={getY(stats.avgQ1)} r="4" className="fill-[#FFF200] stroke-[#00AEEF] stroke-2" />
+                    <circle cx="112.5" cy={getY(stats.avgQ2)} r="4" className="fill-[#FFF200] stroke-[#00AEEF] stroke-2" />
+                    <circle cx="187.5" cy={getY(stats.avgQ3)} r="4" className="fill-[#FFF200] stroke-[#00AEEF] stroke-2" />
+                    <circle cx="262.5" cy={getY(stats.avgQ4)} r="4" className="fill-[#FFF200] stroke-[#00AEEF] stroke-2" />
                   </svg>
                 </div>
 
-                <div className="grid grid-cols-4 text-center text-xs font-extrabold pt-2 border-t border-slate-200 text-slate-800">
-                  <div>Suku 1 (Q1) <span className="block text-[11px] font-normal text-slate-600">{stats.avgQ1}%</span></div>
-                  <div>Suku 2 (Q2) <span className="block text-[11px] font-normal text-slate-600">{stats.avgQ2}%</span></div>
-                  <div>Suku 3 (Q3) <span className="block text-[11px] font-normal text-slate-600">{stats.avgQ3}%</span></div>
-                  <div>Suku 4 (Q4) <span className="block text-[11px] font-normal text-slate-600">{stats.avgQ4}%</span></div>
+                <div className="grid grid-cols-4 text-center text-xs font-extrabold pt-2 border-t-2 border-[#00AEEF] text-[#00AEEF]">
+                  <div>{t.q1} <span className="block text-[11px] font-bold">{stats.avgQ1}%</span></div>
+                  <div>{t.q2} <span className="block text-[11px] font-bold">{stats.avgQ2}%</span></div>
+                  <div>{t.q3} <span className="block text-[11px] font-bold">{stats.avgQ3}%</span></div>
+                  <div>{t.q4} <span className="block text-[11px] font-bold">{stats.avgQ4}%</span></div>
                 </div>
               </div>
             </section>
 
             {/* 4. JADUAL REKOD KPI RASMI */}
-            <section className="bg-white rounded-lg border border-slate-300 shadow-xs overflow-hidden">
-              <div className="p-4 bg-slate-900 text-white flex justify-between items-center">
-                <h2 className="text-xs font-black tracking-wider uppercase">SENARAI STRATEGIK & KPI ORGANISASI</h2>
-                <span className="text-xs font-medium text-slate-300">
-                  Paparan <strong>{filteredData.length}</strong> Rekod
+            <section className="bg-[#FFFFFF] rounded-lg border-2 border-[#00AEEF] shadow-xs overflow-hidden">
+              <div className="p-4 bg-[#00AEEF] text-[#FFFFFF] flex justify-between items-center border-b-2 border-[#FFF200]">
+                <h2 className="text-xs font-black tracking-wider uppercase text-[#FFF200]">{t.tableTitle}</h2>
+                <span className="text-xs font-bold">
+                  {t.recordsShown}: <strong>{filteredData.length}</strong>
                 </span>
               </div>
 
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="text-[11px] font-black uppercase tracking-wider bg-slate-100 text-slate-800 border-b border-slate-300">
-                      <th className="p-3.5">Kod Rekod</th>
-                      <th className="p-3.5">Pernyataan KPI & Inisiatif</th>
-                      <th className="p-3.5">Bahagian</th>
-                      <th className="p-3.5 text-center">Sasaran</th>
-                      <th className="p-3.5 text-center">Pencapaian</th>
-                      <th className="p-3.5">Status Prestasi</th>
-                      <th className="p-3.5 text-center">Tindakan</th>
+                    <tr className="text-[11px] font-black uppercase tracking-wider bg-slate-50 text-[#00AEEF] border-b-2 border-[#00AEEF]">
+                      <th className="p-3.5">{t.colCode}</th>
+                      <th className="p-3.5">{t.colTitle}</th>
+                      <th className="p-3.5">{t.colDept}</th>
+                      <th className="p-3.5 text-center">{t.colTarget}</th>
+                      <th className="p-3.5 text-center">{t.colAchieved}</th>
+                      <th className="p-3.5">{t.colStatus}</th>
+                      <th className="p-3.5 text-center">{t.colAction}</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-200 text-xs font-medium text-slate-800">
+                  <tbody className="divide-y divide-[#00AEEF]/20 text-xs font-bold text-[#00AEEF]">
                     {filteredData.length > 0 ? (
                       filteredData.map((item) => {
                         const isExpanded = selectedKpiDetail?.id === item.id;
                         const canEdit = canEditItem(item.bahagian);
+                        const displayTitle = lang === 'en' && item.titleEn ? item.titleEn : item.title;
+
                         return (
                           <React.Fragment key={item.id}>
                             <tr className={isExpanded ? 'bg-slate-50' : 'hover:bg-slate-50'}>
                               <td className="p-3.5 font-bold whitespace-nowrap">
-                                <span className="px-2 py-1 rounded bg-slate-900 text-amber-400 font-mono text-[11px] font-bold">
+                                <span className="px-2 py-1 rounded bg-[#00AEEF] text-[#FFF200] font-mono text-[11px] font-black">
                                   {item.id}
                                 </span>
                               </td>
 
                               <td className="p-3.5 max-w-xs sm:max-w-md">
-                                <div className="font-bold leading-snug text-slate-900">{item.title}</div>
-                                <div className="text-[10px] text-slate-500 mt-0.5">{item.pemilik}</div>
+                                <div className="font-extrabold leading-snug text-[#00AEEF]">{displayTitle}</div>
+                                <div className="text-[10px] opacity-80 mt-0.5">{item.pemilik}</div>
                               </td>
 
                               <td className="p-3.5 whitespace-nowrap">
-                                <span className="font-extrabold px-2 py-0.5 bg-slate-100 border border-slate-300 text-slate-800 rounded font-mono text-[11px]">
+                                <span className="font-black px-2 py-0.5 bg-[#FFF200] text-[#00AEEF] border border-[#00AEEF] rounded font-mono text-[11px]">
                                   {item.bahagian}
                                 </span>
                               </td>
 
-                              <td className="p-3.5 text-center font-bold text-slate-900">
+                              <td className="p-3.5 text-center font-bold">
                                 {item.sasaran}%
                               </td>
 
-                              <td className="p-3.5 text-center font-extrabold text-sm">
-                                <span className={
-                                  item.status === 'hijau' ? 'text-emerald-700' :
-                                  item.status === 'kuning' ? 'text-amber-600' : 'text-rose-700'
-                                }>
-                                  {item.pencapaian}%
-                                </span>
+                              <td className="p-3.5 text-center font-black text-sm">
+                                <span>{item.pencapaian}%</span>
                               </td>
 
                               <td className="p-3.5 min-w-[140px]">
                                 <div className="flex items-center space-x-2">
-                                  <div className="w-full bg-slate-200 h-2 rounded overflow-hidden">
+                                  <div className="w-full bg-slate-100 h-2 rounded overflow-hidden border border-[#00AEEF]">
                                     <div
-                                      className={`h-full rounded ${
-                                        item.status === 'hijau' ? 'bg-emerald-600' :
-                                        item.status === 'kuning' ? 'bg-amber-500' : 'bg-rose-600'
-                                      }`}
+                                      className="h-full rounded bg-[#00AEEF]"
                                       style={{ width: `${Math.min(item.pencapaian, 100)}%` }}
                                     ></div>
                                   </div>
-                                  <span className={`text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded border ${
-                                    item.status === 'hijau' ? 'bg-emerald-50 text-emerald-800 border-emerald-300' :
-                                    item.status === 'kuning' ? 'bg-amber-50 text-amber-800 border-amber-300' :
-                                    'bg-rose-50 text-rose-800 border-rose-300'
-                                  }`}>
+                                  <span className="text-[10px] font-black uppercase px-1.5 py-0.5 rounded border border-[#00AEEF] bg-[#FFF200] text-[#00AEEF]">
                                     {item.status}
                                   </span>
                                 </div>
@@ -844,24 +988,24 @@ export default function PSUKPPPage() {
                                 <div className="flex items-center justify-center space-x-1.5">
                                   <button
                                     onClick={() => setSelectedKpiDetail(isExpanded ? null : item)}
-                                    className="px-2.5 py-1 text-[11px] font-bold rounded bg-slate-900 text-white hover:bg-slate-800 transition"
+                                    className="px-2.5 py-1 text-[11px] font-black rounded bg-[#00AEEF] text-[#FFFFFF] hover:bg-[#0096ce] transition"
                                   >
-                                    {isExpanded ? 'Tutup' : 'Perincian'}
+                                    {isExpanded ? t.close : t.detail}
                                   </button>
 
                                   {canEdit && (
                                     <>
                                       <button
                                         onClick={() => handleOpenEdit(item)}
-                                        className="px-2 py-1 text-[11px] font-bold bg-amber-500 hover:bg-amber-400 text-slate-950 rounded transition"
+                                        className="px-2 py-1 text-[11px] font-black bg-[#FFF200] text-[#00AEEF] border border-[#00AEEF] rounded transition"
                                       >
-                                        Edit
+                                        {t.edit}
                                       </button>
                                       <button
                                         onClick={() => handleDelete(item.id)}
-                                        className="px-2 py-1 text-[11px] font-bold bg-rose-700 hover:bg-rose-600 text-white rounded transition"
+                                        className="px-2 py-1 text-[11px] font-black bg-[#FFFFFF] text-[#00AEEF] border border-[#00AEEF] rounded transition hover:bg-slate-50"
                                       >
-                                        Padam
+                                        {t.delete}
                                       </button>
                                     </>
                                   )}
@@ -871,57 +1015,57 @@ export default function PSUKPPPage() {
 
                             {/* PERINCIAN REKOD */}
                             {isExpanded && (
-                              <tr className="bg-slate-50 border-b border-slate-300">
+                              <tr className="bg-slate-50 border-b border-[#00AEEF]">
                                 <td colSpan={7} className="p-4">
-                                  <div className="p-4 bg-white rounded border border-slate-300 shadow-xs space-y-4">
-                                    <div className="flex justify-between items-start pb-2 border-b border-slate-200">
+                                  <div className="p-4 bg-[#FFFFFF] rounded border-2 border-[#00AEEF] shadow-xs space-y-4">
+                                    <div className="flex justify-between items-start pb-2 border-b-2 border-[#00AEEF]">
                                       <div>
-                                        <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest">Maklumat Perincian KPI</span>
-                                        <h3 className="text-sm font-black text-slate-900 mt-0.5">{item.title}</h3>
-                                        <p className="text-xs text-slate-600 font-medium">{item.terasName}</p>
+                                        <span className="text-[10px] font-black text-[#00AEEF] uppercase tracking-widest">{t.detailTitle}</span>
+                                        <h3 className="text-sm font-black text-[#00AEEF] mt-0.5">{displayTitle}</h3>
+                                        <p className="text-xs text-[#00AEEF] font-bold">{item.terasName}</p>
                                       </div>
                                       <button
                                         onClick={() => setSelectedKpiDetail(null)}
-                                        className="text-xs font-bold text-slate-500 hover:text-slate-800"
+                                        className="text-xs font-bold text-[#00AEEF]"
                                       >
-                                        Tutup
+                                        {t.close}
                                       </button>
                                     </div>
 
                                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                                      <div className="p-3 bg-slate-50 rounded border border-slate-200">
-                                        <span className="text-[10px] font-bold text-slate-500 uppercase block">Pemilik Rekod</span>
-                                        <strong className="text-slate-900 font-bold">{item.pemilik}</strong>
+                                      <div className="p-3 bg-slate-50 rounded border border-[#00AEEF]">
+                                        <span className="text-[10px] font-bold text-[#00AEEF] uppercase block">{t.owner}</span>
+                                        <strong className="text-[#00AEEF] font-bold">{item.pemilik}</strong>
                                       </div>
-                                      <div className="p-3 bg-slate-50 rounded border border-slate-200">
-                                        <span className="text-[10px] font-bold text-slate-500 uppercase block">Sasaran Tahunan</span>
-                                        <strong className="text-slate-900 font-bold">{item.sasaran}%</strong>
+                                      <div className="p-3 bg-slate-50 rounded border border-[#00AEEF]">
+                                        <span className="text-[10px] font-bold text-[#00AEEF] uppercase block">{t.annualTarget}</span>
+                                        <strong className="text-[#00AEEF] font-bold">{item.sasaran}%</strong>
                                       </div>
-                                      <div className="p-3 bg-slate-50 rounded border border-slate-200">
-                                        <span className="text-[10px] font-bold text-slate-500 uppercase block">Pencapaian Semasa</span>
-                                        <strong className="text-blue-900 font-extrabold">{item.pencapaian}%</strong>
+                                      <div className="p-3 bg-slate-50 rounded border border-[#00AEEF]">
+                                        <span className="text-[10px] font-bold text-[#00AEEF] uppercase block">{t.currentScore}</span>
+                                        <strong className="text-[#00AEEF] font-black">{item.pencapaian}%</strong>
                                       </div>
-                                      <div className="p-3 bg-slate-50 rounded border border-slate-200">
-                                        <span className="text-[10px] font-bold text-slate-500 uppercase block">Status Prestasi</span>
-                                        <strong className="uppercase text-slate-900 font-bold">{item.status}</strong>
+                                      <div className="p-3 bg-slate-50 rounded border border-[#00AEEF]">
+                                        <span className="text-[10px] font-bold text-[#00AEEF] uppercase block">{t.colStatus}</span>
+                                        <strong className="uppercase text-[#00AEEF] font-bold">{item.status}</strong>
                                       </div>
                                     </div>
 
                                     {(item.status === 'merah' || item.status === 'kuning' || item.sebabKelewatan) && (
-                                      <div className="p-3 bg-rose-50 border border-rose-200 text-slate-900 rounded text-xs space-y-1">
-                                        <h4 className="font-extrabold text-rose-900 uppercase">Pengurusan Risiko & Intervensi</h4>
-                                        <div><strong>Punca Kelewatan:</strong> {item.sebabKelewatan || 'Tiada rekod.'}</div>
-                                        <div><strong>Tindakan Intervensi:</strong> {item.pelanIntervensi || 'Tiada rekod.'}</div>
+                                      <div className="p-3 bg-[#FFF200]/20 border border-[#00AEEF] text-[#00AEEF] rounded text-xs space-y-1">
+                                        <h4 className="font-black uppercase">{t.riskMitigation}</h4>
+                                        <div><strong>{t.delayCause}:</strong> {item.sebabKelewatan || 'N/A'}</div>
+                                        <div><strong>{t.interventionAction}:</strong> {item.pelanIntervensi || 'N/A'}</div>
                                       </div>
                                     )}
 
-                                    <div className="text-xs pt-1">
-                                      <h4 className="font-extrabold text-slate-800 uppercase mb-2">Pencapaian Mengikut Suku Tahun</h4>
-                                      <div className="grid grid-cols-4 gap-2 text-center">
-                                        <div className="p-2 border border-slate-200 rounded bg-slate-50">Suku 1 (Q1): <strong>{item.q1}%</strong></div>
-                                        <div className="p-2 border border-slate-200 rounded bg-slate-50">Suku 2 (Q2): <strong>{item.q2}%</strong></div>
-                                        <div className="p-2 border border-slate-200 rounded bg-slate-50">Suku 3 (Q3): <strong>{item.q3}%</strong></div>
-                                        <div className="p-2 border border-slate-200 rounded bg-slate-50">Suku 4 (Q4): <strong>{item.q4}%</strong></div>
+                                    <div className="text-xs pt-1 text-[#00AEEF]">
+                                      <h4 className="font-extrabold uppercase mb-2">{t.quarterlyBreakdown}</h4>
+                                      <div className="grid grid-cols-4 gap-2 text-center font-bold">
+                                        <div className="p-2 border border-[#00AEEF] rounded bg-slate-50">{t.q1}: <strong>{item.q1}%</strong></div>
+                                        <div className="p-2 border border-[#00AEEF] rounded bg-slate-50">{t.q2}: <strong>{item.q2}%</strong></div>
+                                        <div className="p-2 border border-[#00AEEF] rounded bg-slate-50">{t.q3}: <strong>{item.q3}%</strong></div>
+                                        <div className="p-2 border border-[#00AEEF] rounded bg-slate-50">{t.q4}: <strong>{item.q4}%</strong></div>
                                       </div>
                                     </div>
                                   </div>
@@ -933,8 +1077,8 @@ export default function PSUKPPPage() {
                       })
                     ) : (
                       <tr>
-                        <td colSpan={7} className="p-8 text-center text-slate-500 font-medium">
-                          Tiada rekod ditemui mengikut kriteria tapisan.
+                        <td colSpan={7} className="p-8 text-center text-[#00AEEF] font-medium">
+                          {t.noRecord}
                         </td>
                       </tr>
                     )}
@@ -948,26 +1092,26 @@ export default function PSUKPPPage() {
 
       {/* MODAL LOG AUDIT */}
       {showLogModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-xl p-6 bg-white rounded-lg shadow-xl border border-slate-300 max-h-[80vh] overflow-y-auto">
-            <div className="flex justify-between items-center pb-3 border-b border-slate-200">
-              <h3 className="text-xs font-black uppercase text-slate-900">Sejarah Log Audit Sistem</h3>
-              <button onClick={() => setShowLogModal(false)} className="text-slate-500 font-bold">✕</button>
+        <div className="fixed inset-0 z-50 bg-[#00AEEF]/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-xl p-6 bg-[#FFFFFF] rounded-lg shadow-xl border-2 border-[#00AEEF] max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-center pb-3 border-b-2 border-[#00AEEF]">
+              <h3 className="text-xs font-black uppercase text-[#00AEEF]">{t.auditLog}</h3>
+              <button onClick={() => setShowLogModal(false)} className="text-[#00AEEF] font-bold">✕</button>
             </div>
 
-            <div className="mt-4 space-y-2 text-xs">
+            <div className="mt-4 space-y-2 text-xs text-[#00AEEF]">
               {auditLogs.length > 0 ? (
                 auditLogs.map((log) => (
-                  <div key={log.id} className="p-3 rounded border border-slate-200 bg-slate-50">
-                    <div className="flex justify-between font-bold text-slate-900">
+                  <div key={log.id} className="p-3 rounded border border-[#00AEEF] bg-slate-50">
+                    <div className="flex justify-between font-bold">
                       <span>{log.pengguna}</span>
-                      <span className="text-[10px] text-slate-500">{log.tarikh}</span>
+                      <span className="text-[10px] opacity-80">{log.tarikh}</span>
                     </div>
-                    <p className="mt-1 text-slate-700 font-medium">{log.tindakan}</p>
+                    <p className="mt-1 font-medium">{log.tindakan}</p>
                   </div>
                 ))
               ) : (
-                <p className="text-center text-slate-500 py-4">Tiada sebarang rekod log audit.</p>
+                <p className="text-center py-4">N/A</p>
               )}
             </div>
           </div>
@@ -976,11 +1120,11 @@ export default function PSUKPPPage() {
 
       {/* MODAL LOG MASUK ADMIN */}
       {showLoginModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl border border-slate-300">
-            <div className="flex justify-between items-center pb-3 border-b border-slate-200">
-              <h3 className="text-xs font-black uppercase text-slate-900">Pengesahan Capaian Pentadbir</h3>
-              <button onClick={() => setShowLoginModal(false)} className="text-slate-500 font-bold">✕</button>
+        <div className="fixed inset-0 z-50 bg-[#00AEEF]/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-md p-6 bg-[#FFFFFF] rounded-lg shadow-xl border-2 border-[#00AEEF]">
+            <div className="flex justify-between items-center pb-3 border-b-2 border-[#00AEEF]">
+              <h3 className="text-xs font-black uppercase text-[#00AEEF]">{t.logIn}</h3>
+              <button onClick={() => setShowLoginModal(false)} className="text-[#00AEEF] font-bold">✕</button>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-4 mt-4">
@@ -991,45 +1135,45 @@ export default function PSUKPPPage() {
               )}
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">ID Pengguna (Username)</label>
+                <label className="block text-xs font-bold text-[#00AEEF] mb-1">ID Pengguna (Username)</label>
                 <input
                   type="text"
                   required
                   placeholder="admin / admin_bpen..."
                   value={loginUsername}
                   onChange={(e) => setLoginUsername(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 font-medium outline-none bg-slate-50"
+                  className="w-full px-3 py-2 text-xs rounded border-2 border-[#00AEEF] font-bold outline-none bg-slate-50 text-[#00AEEF]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1">Kata Laluan</label>
+                <label className="block text-xs font-bold text-[#00AEEF] mb-1">Kata Laluan</label>
                 <input
                   type="password"
                   required
                   placeholder="Kata laluan keselamatan"
                   value={loginPassword}
                   onChange={(e) => setLoginPassword(e.target.value)}
-                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 font-medium outline-none bg-slate-50"
+                  className="w-full px-3 py-2 text-xs rounded border-2 border-[#00AEEF] font-bold outline-none bg-slate-50 text-[#00AEEF]"
                 />
               </div>
 
-              <div className="p-3 rounded bg-slate-100 text-[11px] text-slate-700 border border-slate-200 space-y-1 font-medium">
-                <div><strong>Pentadbir Utama:</strong> admin / admin123</div>
-                <div><strong>Pentadbir Bahagian:</strong> admin_&lt;kod_bahagian&gt; / admin123</div>
+              <div className="p-3 rounded bg-slate-50 text-[11px] text-[#00AEEF] border border-[#00AEEF] space-y-1 font-bold">
+                <div><strong>Super Admin:</strong> admin / admin123</div>
+                <div><strong>Admin Bahagian:</strong> admin_&lt;kod_bahagian&gt; / admin123</div>
               </div>
 
               <div className="flex justify-end space-x-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setShowLoginModal(false)}
-                  className="px-4 py-2 text-xs font-bold rounded bg-slate-200 text-slate-800"
+                  className="px-4 py-2 text-xs font-bold rounded bg-slate-200 text-[#00AEEF]"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-xs font-bold rounded bg-slate-900 text-white"
+                  className="px-4 py-2 text-xs font-black rounded bg-[#00AEEF] text-[#FFFFFF]"
                 >
                   Log Masuk
                 </button>
@@ -1041,16 +1185,16 @@ export default function PSUKPPPage() {
 
       {/* MODAL BORANG TAMBAH / EDIT KPI */}
       {showFormModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow-xl border border-slate-300 max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center pb-3 border-b border-slate-200">
-              <h3 className="text-xs font-black uppercase text-slate-900">
+        <div className="fixed inset-0 z-50 bg-[#00AEEF]/40 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-2xl p-6 bg-[#FFFFFF] rounded-lg shadow-xl border-2 border-[#00AEEF] max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-center pb-3 border-b-2 border-[#00AEEF]">
+              <h3 className="text-xs font-black uppercase text-[#00AEEF]">
                 {editingKpi ? `Kemaskini Rekod KPI (${formData.id})` : 'Pendaftaran KPI Baharu'}
               </h3>
-              <button onClick={() => setShowFormModal(false)} className="text-slate-500 font-bold">✕</button>
+              <button onClick={() => setShowFormModal(false)} className="text-[#00AEEF] font-bold">✕</button>
             </div>
 
-            <form onSubmit={handleFormSubmit} className="space-y-4 mt-4 text-xs font-medium text-slate-800">
+            <form onSubmit={handleFormSubmit} className="space-y-4 mt-4 text-xs font-bold text-[#00AEEF]">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block font-bold mb-1">Kod KPI</label>
@@ -1059,7 +1203,7 @@ export default function PSUKPPPage() {
                     required
                     value={formData.id}
                     onChange={(e) => setFormData({ ...formData, id: e.target.value })}
-                    className="w-full px-3 py-2 rounded border border-slate-300 font-mono font-bold bg-slate-50"
+                    className="w-full px-3 py-2 rounded border-2 border-[#00AEEF] font-mono font-bold bg-slate-50 text-[#00AEEF]"
                   />
                 </div>
 
@@ -1073,7 +1217,7 @@ export default function PSUKPPPage() {
                       const bName = BAHAGIAN_LIST.find(b => b.code === code)?.name || 'Bahagian';
                       setFormData({ ...formData, bahagian: code, pemilik: bName });
                     }}
-                    className={`w-full px-3 py-2 rounded border border-slate-300 font-bold bg-slate-50 ${
+                    className={`w-full px-3 py-2 rounded border-2 border-[#00AEEF] font-bold bg-slate-50 text-[#00AEEF] ${
                       loggedInBahagianCode ? 'opacity-70 cursor-not-allowed' : ''
                     }`}
                   >
@@ -1091,7 +1235,7 @@ export default function PSUKPPPage() {
                   rows={2}
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-3 py-2 rounded border border-slate-300 font-bold bg-slate-50"
+                  className="w-full px-3 py-2 rounded border-2 border-[#00AEEF] font-bold bg-slate-50 text-[#00AEEF]"
                 />
               </div>
 
@@ -1103,7 +1247,7 @@ export default function PSUKPPPage() {
                     min="0" max="100" required
                     value={formData.sasaran}
                     onChange={(e) => setFormData({ ...formData, sasaran: Number(e.target.value) })}
-                    className="w-full px-3 py-2 rounded border border-slate-300 font-bold bg-slate-50"
+                    className="w-full px-3 py-2 rounded border-2 border-[#00AEEF] font-bold bg-slate-50 text-[#00AEEF]"
                   />
                 </div>
 
@@ -1114,7 +1258,7 @@ export default function PSUKPPPage() {
                     min="0" max="100" required
                     value={formData.pencapaian}
                     onChange={(e) => setFormData({ ...formData, pencapaian: Number(e.target.value) })}
-                    className="w-full px-3 py-2 rounded border border-slate-300 font-bold bg-slate-50"
+                    className="w-full px-3 py-2 rounded border-2 border-[#00AEEF] font-bold bg-slate-50 text-[#00AEEF]"
                   />
                 </div>
 
@@ -1123,7 +1267,7 @@ export default function PSUKPPPage() {
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-2 rounded border border-slate-300 font-bold bg-slate-50"
+                    className="w-full px-3 py-2 rounded border-2 border-[#00AEEF] font-bold bg-slate-50 text-[#00AEEF]"
                   >
                     <option value="hijau">Hijau (Mencapai Sasaran)</option>
                     <option value="kuning">Kuning (Dalam Perhatian)</option>
@@ -1132,8 +1276,8 @@ export default function PSUKPPPage() {
                 </div>
               </div>
 
-              <div className="p-3 rounded bg-rose-50 border border-rose-200 space-y-3">
-                <h4 className="font-extrabold text-rose-900 uppercase">Pengurusan Intervensi & Risk Mitigation</h4>
+              <div className="p-3 rounded bg-[#FFF200]/20 border border-[#00AEEF] space-y-3">
+                <h4 className="font-extrabold uppercase text-[#00AEEF]">Pengurusan Risiko & Intervensi</h4>
                 <div>
                   <label className="block font-bold mb-1">Punca Kelewatan</label>
                   <input
@@ -1141,7 +1285,7 @@ export default function PSUKPPPage() {
                     placeholder="Nyatakan sebab..."
                     value={formData.sebabKelewatan || ''}
                     onChange={(e) => setFormData({ ...formData, sebabKelewatan: e.target.value })}
-                    className="w-full px-3 py-2 rounded border border-slate-300 bg-white"
+                    className="w-full px-3 py-2 rounded border border-[#00AEEF] bg-[#FFFFFF] text-[#00AEEF]"
                   />
                 </div>
                 <div>
@@ -1151,7 +1295,7 @@ export default function PSUKPPPage() {
                     placeholder="Nyatakan tindakan..."
                     value={formData.pelanIntervensi || ''}
                     onChange={(e) => setFormData({ ...formData, pelanIntervensi: e.target.value })}
-                    className="w-full px-3 py-2 rounded border border-slate-300 bg-white"
+                    className="w-full px-3 py-2 rounded border border-[#00AEEF] bg-[#FFFFFF] text-[#00AEEF]"
                   />
                 </div>
               </div>
@@ -1162,37 +1306,37 @@ export default function PSUKPPPage() {
                   <input
                     type="number" placeholder="Q1" value={formData.q1}
                     onChange={(e) => setFormData({ ...formData, q1: Number(e.target.value) })}
-                    className="p-2 rounded border border-slate-300 text-center font-bold bg-slate-50"
+                    className="p-2 rounded border-2 border-[#00AEEF] text-center font-bold bg-slate-50 text-[#00AEEF]"
                   />
                   <input
                     type="number" placeholder="Q2" value={formData.q2}
                     onChange={(e) => setFormData({ ...formData, q2: Number(e.target.value) })}
-                    className="p-2 rounded border border-slate-300 text-center font-bold bg-slate-50"
+                    className="p-2 rounded border-2 border-[#00AEEF] text-center font-bold bg-slate-50 text-[#00AEEF]"
                   />
                   <input
                     type="number" placeholder="Q3" value={formData.q3}
                     onChange={(e) => setFormData({ ...formData, q3: Number(e.target.value) })}
-                    className="p-2 rounded border border-slate-300 text-center font-bold bg-slate-50"
+                    className="p-2 rounded border-2 border-[#00AEEF] text-center font-bold bg-slate-50 text-[#00AEEF]"
                   />
                   <input
                     type="number" placeholder="Q4" value={formData.q4}
                     onChange={(e) => setFormData({ ...formData, q4: Number(e.target.value) })}
-                    className="p-2 rounded border border-slate-300 text-center font-bold bg-slate-50"
+                    className="p-2 rounded border-2 border-[#00AEEF] text-center font-bold bg-slate-50 text-[#00AEEF]"
                   />
                 </div>
               </div>
 
-              <div className="flex justify-end space-x-2 pt-3 border-t border-slate-200">
+              <div className="flex justify-end space-x-2 pt-3 border-t border-[#00AEEF]">
                 <button
                   type="button"
                   onClick={() => setShowFormModal(false)}
-                  className="px-4 py-2 font-bold rounded bg-slate-200 text-slate-800"
+                  className="px-4 py-2 font-bold rounded bg-slate-200 text-[#00AEEF]"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 font-bold rounded bg-emerald-700 hover:bg-emerald-800 text-white"
+                  className="px-4 py-2 font-black rounded bg-[#00AEEF] text-[#FFFFFF]"
                 >
                   Simpan Rekod
                 </button>
