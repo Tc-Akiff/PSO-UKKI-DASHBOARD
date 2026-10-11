@@ -114,10 +114,12 @@ const dict = {
     subTitle: 'Sistem Pemantauan Pelan Strategik Organisasi (PSO)',
     title: 'DASHBOARD PRESTASI PELAN STRATEGIK ORGANISASI',
     exportCsv: 'Eksport Laporan (CSV)',
+    exportPdf: 'Eksport Laporan (PDF Rasmi)',
     print: 'Cetak Laporan',
     modAwam: 'Mod Awam',
     logOut: 'Log Keluar',
     logIn: 'Log Masuk Pentadbir',
+    changePass: 'Tukar Kata Laluan',
     filterTitle: 'Pilihan Bahagian / Unit Organisasi (14 Bahagian)',
     showAll: 'Papar Keseluruhan PSUKPP',
     all14: 'KESELURUHAN',
@@ -152,6 +154,7 @@ const dict = {
     lblRed: 'MERAH',
     pieChartTitle: 'Analisis Taburan Status Inisiatif',
     trendTitle: 'Purata Pencapaian Mengikut Suku Tahun (Q1-Q4)',
+    benchChartTitle: 'Carta Perbandingan Prestasi Purata 14 Bahagian (%)',
     tableTitle: 'SENARAI STRATEGIK & KPI ORGANISASI',
     recordsShown: 'Paparan Rekod',
     colCode: 'Kod Rekod',
@@ -172,7 +175,7 @@ const dict = {
     riskMitigation: 'Pengurusan Risiko & Intervensi',
     delayCause: 'Punca Kelewatan',
     interventionAction: 'Tindakan Intervensi',
-    quarterlyBreakdown: 'Pencapaian Mengikut Suku Tahun',
+    quarterlyBreakdown: 'Pencapaian Mengikut Suku Tahun & Garis Masa Roadmap',
     q1: 'Suku 1 (Q1)', q2: 'Suku 2 (Q2)', q3: 'Suku 3 (Q3)', q4: 'Suku 4 (Q4)',
     noRecord: 'Tiada rekod ditemui mengikut kriteria tapisan.'
   },
@@ -181,10 +184,12 @@ const dict = {
     subTitle: 'Organizational Strategic Plan (PSO) Monitoring System',
     title: 'ORGANIZATIONAL STRATEGIC PLAN PERFORMANCE DASHBOARD',
     exportCsv: 'Export Report (CSV)',
+    exportPdf: 'Export Official PDF Report',
     print: 'Print Report',
     modAwam: 'Public Mode',
     logOut: 'Log Out',
     logIn: 'Admin Login',
+    changePass: 'Change Password',
     filterTitle: 'Select Department / Unit (14 Divisions)',
     showAll: 'View All PSUKPP',
     all14: 'OVERALL',
@@ -219,6 +224,7 @@ const dict = {
     lblRed: 'RED',
     pieChartTitle: 'Initiative Status Distribution Analysis',
     trendTitle: 'Quarterly Average Achievement (Q1-Q4)',
+    benchChartTitle: 'Average Performance Comparison of 14 Divisions (%)',
     tableTitle: 'STRATEGIC INITIATIVES & KPI LIST',
     recordsShown: 'Records Shown',
     colCode: 'Record Code',
@@ -239,7 +245,7 @@ const dict = {
     riskMitigation: 'Risk Management & Mitigation',
     delayCause: 'Cause of Delay',
     interventionAction: 'Intervention Action',
-    quarterlyBreakdown: 'Quarterly Achievement Breakdown',
+    quarterlyBreakdown: 'Quarterly Achievement & Timeline Milestones',
     q1: 'Quarter 1 (Q1)', q2: 'Quarter 2 (Q2)', q3: 'Quarter 3 (Q3)', q4: 'Quarter 4 (Q4)',
     noRecord: 'No records found matching the filter criteria.'
   }
@@ -253,6 +259,10 @@ export default function PSUKPPPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [userRole, setUserRole] = useState<string>('PUBLIC');
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false);
+  const [showChangePassModal, setShowChangePassModal] = useState<boolean>(false);
+  const [passData, setPassData] = useState({ oldPass: '', newPass: '', confirmPass: '' });
+  const [passMsg, setPassMsg] = useState({ type: '', text: '' });
+
   const [loginUsername, setLoginUsername] = useState<string>('');
   const [loginPassword, setLoginPassword] = useState<string>('');
   const [loginError, setLoginError] = useState<string>('');
@@ -353,6 +363,30 @@ export default function PSUKPPPage() {
         setLoginError('ID Pengguna atau Kata Laluan Tidak Sah.');
       }
     }
+  };
+
+  const handleChangePassword = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passData.oldPass !== 'admin123') {
+      setPassMsg({ type: 'error', text: 'Kata laluan asal tidak tepat.' });
+      return;
+    }
+    if (passData.newPass.length < 6) {
+      setPassMsg({ type: 'error', text: 'Kata laluan baharu mestilah sekurang-kurangnya 6 aksara.' });
+      return;
+    }
+    if (passData.newPass !== passData.confirmPass) {
+      setPassMsg({ type: 'error', text: 'Sahkan kata laluan tidak sepadan.' });
+      return;
+    }
+
+    addAuditLog(`Menukar kata laluan untuk sesi ${userRole}`);
+    setPassMsg({ type: 'success', text: 'Kata laluan berjaya dikemaskini.' });
+    setTimeout(() => {
+      setShowChangePassModal(false);
+      setPassData({ oldPass: '', newPass: '', confirmPass: '' });
+      setPassMsg({ type: '', text: '' });
+    }, 1200);
   };
 
   const handleLogout = () => {
@@ -486,6 +520,17 @@ export default function PSUKPPPage() {
     return { total, hijau, kuning, merah, avgScore, pctHijau, pctKuning, pctMerah, avgQ1, avgQ2, avgQ3, avgQ4 };
   }, [filteredData]);
 
+  // CARTA PERBANDINGAN PRESTASI 14 BAHAGIAN
+  const deptBenchStats = useMemo(() => {
+    return BAHAGIAN_LIST.map(b => {
+      const items = kpiList.filter(k => k.bahagian === b.code);
+      const avg = items.length > 0
+        ? Math.round(items.reduce((acc, curr) => acc + Number(curr.pencapaian || 0), 0) / items.length)
+        : 0;
+      return { code: b.code, name: b.name, avg, count: items.length };
+    });
+  }, [kpiList]);
+
   const getY = (val: number) => 85 - (val / 100) * 70;
 
   const getStatusLabel = (status: string) => {
@@ -504,7 +549,6 @@ export default function PSUKPPPage() {
           <span>{t.topBar}</span>
           <div className="flex items-center space-x-4">
             <span>{t.subTitle}</span>
-            {/* BUTTON PENUKAR BAHASA */}
             <button 
               onClick={() => setLang(lang === 'bm' ? 'en' : 'bm')}
               className="bg-amber-400 text-slate-950 font-black text-[10px] px-2.5 py-0.5 rounded tracking-wider uppercase hover:bg-amber-300 transition"
@@ -515,7 +559,7 @@ export default function PSUKPPPage() {
         </div>
       </div>
 
-      {/* HEADER UTAMA KORPORAT (TANPA LOGO/JATA) */}
+      {/* HEADER UTAMA KORPORAT */}
       <header className="bg-slate-900 text-white border-b-4 border-amber-500 sticky top-0 z-30 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap justify-between items-center gap-4">
           <div>
@@ -539,7 +583,7 @@ export default function PSUKPPPage() {
               onClick={() => window.print()}
               className="px-3.5 py-2 text-xs font-bold rounded bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 transition"
             >
-              {t.print}
+              {t.exportPdf}
             </button>
 
             <div className="h-6 w-px bg-slate-700 mx-1"></div>
@@ -549,6 +593,12 @@ export default function PSUKPPPage() {
                 <span className="px-2.5 py-1 rounded bg-amber-500 text-slate-950 font-extrabold text-xs tracking-wider">
                   {userRole}
                 </span>
+                <button
+                  onClick={() => setShowChangePassModal(true)}
+                  className="px-2.5 py-1.5 text-xs font-bold rounded bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 transition"
+                >
+                  {t.changePass}
+                </button>
                 <button
                   onClick={handleLogout}
                   className="px-3 py-1.5 text-xs font-bold rounded bg-rose-700 hover:bg-rose-600 text-white transition"
@@ -722,6 +772,25 @@ export default function PSUKPPPage() {
                   </div>
                 </div>
                 <span className="text-[11px] text-rose-800 font-bold mt-3">{t.lblRed}</span>
+              </div>
+            </section>
+
+            {/* CARTA PERBANDINGAN PRESTASI 14 BAHAGIAN */}
+            <section className="bg-white p-5 rounded-lg border border-slate-300 shadow-xs">
+              <h2 className="text-xs font-black uppercase tracking-wider text-slate-800 mb-4">
+                {t.benchChartTitle}
+              </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-7 gap-3">
+                {deptBenchStats.map(d => (
+                  <div key={d.code} className="p-3 rounded bg-slate-50 border border-slate-200 text-center">
+                    <span className="block font-mono font-bold text-xs text-slate-900">{d.code}</span>
+                    <strong className="block text-lg font-black text-blue-900 my-1">{d.avg}%</strong>
+                    <span className="text-[10px] text-slate-500 block font-medium">{d.count} KPI</span>
+                    <div className="w-full bg-slate-200 h-1.5 rounded mt-1.5 overflow-hidden">
+                      <div className="bg-blue-900 h-full rounded" style={{ width: `${d.avg}%` }}></div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </section>
 
@@ -1024,7 +1093,7 @@ export default function PSUKPPPage() {
                               </td>
                             </tr>
 
-                            {/* PERINCIAN REKOD */}
+                            {/* PERINCIAN REKOD & GANTT ROADMAP */}
                             {isExpanded && (
                               <tr className="bg-slate-50 border-b border-slate-300">
                                 <td colSpan={7} className="p-4">
@@ -1070,13 +1139,38 @@ export default function PSUKPPPage() {
                                       </div>
                                     )}
 
+                                    {/* CARTA ROADMAP SUKU TAHUN */}
                                     <div className="text-xs pt-1">
                                       <h4 className="font-extrabold text-slate-800 uppercase mb-2">{t.quarterlyBreakdown}</h4>
                                       <div className="grid grid-cols-4 gap-2 text-center">
-                                        <div className="p-2 border border-slate-200 rounded bg-slate-50">{t.q1}: <strong>{item.q1}%</strong></div>
-                                        <div className="p-2 border border-slate-200 rounded bg-slate-50">{t.q2}: <strong>{item.q2}%</strong></div>
-                                        <div className="p-2 border border-slate-200 rounded bg-slate-50">{t.q3}: <strong>{item.q3}%</strong></div>
-                                        <div className="p-2 border border-slate-200 rounded bg-slate-50">{t.q4}: <strong>{item.q4}%</strong></div>
+                                        <div className="p-3 border border-slate-200 rounded bg-slate-50">
+                                          <span className="block text-[10px] font-bold text-slate-500 uppercase">{t.q1}</span>
+                                          <strong className="text-sm font-black text-slate-900">{item.q1}%</strong>
+                                          <div className="w-full bg-slate-200 h-1.5 rounded mt-2 overflow-hidden">
+                                            <div className="bg-blue-900 h-full rounded" style={{ width: `${item.q1}%` }}></div>
+                                          </div>
+                                        </div>
+                                        <div className="p-3 border border-slate-200 rounded bg-slate-50">
+                                          <span className="block text-[10px] font-bold text-slate-500 uppercase">{t.q2}</span>
+                                          <strong className="text-sm font-black text-slate-900">{item.q2}%</strong>
+                                          <div className="w-full bg-slate-200 h-1.5 rounded mt-2 overflow-hidden">
+                                            <div className="bg-blue-900 h-full rounded" style={{ width: `${item.q2}%` }}></div>
+                                          </div>
+                                        </div>
+                                        <div className="p-3 border border-slate-200 rounded bg-slate-50">
+                                          <span className="block text-[10px] font-bold text-slate-500 uppercase">{t.q3}</span>
+                                          <strong className="text-sm font-black text-slate-900">{item.q3}%</strong>
+                                          <div className="w-full bg-slate-200 h-1.5 rounded mt-2 overflow-hidden">
+                                            <div className="bg-blue-900 h-full rounded" style={{ width: `${item.q3}%` }}></div>
+                                          </div>
+                                        </div>
+                                        <div className="p-3 border border-slate-200 rounded bg-slate-50">
+                                          <span className="block text-[10px] font-bold text-slate-500 uppercase">{t.q4}</span>
+                                          <strong className="text-sm font-black text-slate-900">{item.q4}%</strong>
+                                          <div className="w-full bg-slate-200 h-1.5 rounded mt-2 overflow-hidden">
+                                            <div className="bg-blue-900 h-full rounded" style={{ width: `${item.q4}%` }}></div>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
@@ -1100,6 +1194,77 @@ export default function PSUKPPPage() {
           </>
         )}
       </main>
+
+      {/* MODAL TUKAR KATA LALUAN */}
+      {showChangePassModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-xl border border-slate-300">
+            <div className="flex justify-between items-center pb-3 border-b border-slate-200">
+              <h3 className="text-xs font-black uppercase text-slate-900">Tukar Kata Laluan Pentadbir ({userRole})</h3>
+              <button onClick={() => setShowChangePassModal(false)} className="text-slate-500 font-bold">✕</button>
+            </div>
+
+            <form onSubmit={handleChangePassword} className="space-y-4 mt-4">
+              {passMsg.text && (
+                <div className={`p-3 text-xs font-bold rounded border ${
+                  passMsg.type === 'error' ? 'bg-rose-50 border-rose-200 text-rose-700' : 'bg-emerald-50 border-emerald-200 text-emerald-800'
+                }`}>
+                  {passMsg.text}
+                </div>
+              )}
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Kata Laluan Semasa</label>
+                <input
+                  type="password"
+                  required
+                  value={passData.oldPass}
+                  onChange={(e) => setPassData({ ...passData, oldPass: e.target.value })}
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 font-medium outline-none bg-slate-50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Kata Laluan Baharu</label>
+                <input
+                  type="password"
+                  required
+                  value={passData.newPass}
+                  onChange={(e) => setPassData({ ...passData, newPass: e.target.value })}
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 font-medium outline-none bg-slate-50"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Sahkan Kata Laluan Baharu</label>
+                <input
+                  type="password"
+                  required
+                  value={passData.confirmPass}
+                  onChange={(e) => setPassData({ ...passData, confirmPass: e.target.value })}
+                  className="w-full px-3 py-2 text-xs rounded border border-slate-300 font-medium outline-none bg-slate-50"
+                />
+              </div>
+
+              <div className="flex justify-end space-x-2 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowChangePassModal(false)}
+                  className="px-4 py-2 text-xs font-bold rounded bg-slate-200 text-slate-800"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 text-xs font-bold rounded bg-slate-900 text-white"
+                >
+                  Kemaskini Kata Laluan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* MODAL LOG AUDIT */}
       {showLogModal && (
