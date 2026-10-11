@@ -14,20 +14,20 @@ import {
 
 // --- SENARAI 14 BAHAGIAN & UNIT PSUKPP ---
 const BAHAGIAN_LIST = [
-  { code: 'BPEN', name: 'Bahagian Perancang Ekonomi Negeri (BPEN)', icon: '📈' },
-  { code: 'BPSM', name: 'Bahagian Pengurusan Sumber Manusia (BPSM)', icon: '👥' },
-  { code: 'BTMKN', name: 'Bahagian Teknologi Maklumat Dan Komunikasi Negeri (BTMKN)', icon: '💻' },
-  { code: 'UAD', name: 'Unit Audit Dalam (UAD)', icon: '🔍' },
-  { code: 'BKP', name: 'Bahagian Khidmat Pengurusan (BKP)', icon: '🏢' },
-  { code: 'DUN', name: 'Dewan Undangan Negeri (DUN)', icon: '🏛️' },
-  { code: 'BKT', name: 'Bahagian Kerajaan Tempatan (BKT)', icon: '🏘️' },
-  { code: 'BPMP', name: 'Bahagian Pengurusan Majlis Dan Protokol (BPMP)', icon: '🏅' },
-  { code: 'MSNPP', name: 'Majlis Sukan Negeri Pulau Pinang (MSNPP)', icon: '🏆' },
-  { code: 'BKSA', name: 'Bahagian Kawal Selia Air (BKSA)', icon: '💧' },
-  { code: 'UKKI', name: 'Unit Komunikasi Korporat & Inovasi (UKKI)', icon: '📢' },
-  { code: 'UI', name: 'Unit Integriti (UI)', icon: '🛡️' },
-  { code: 'UPB', name: 'Unit Pengurusan Bencana (UPB)', icon: '🚨' },
-  { code: 'PPW', name: 'Pejabat Pesuruhjaya Warisan (PPW)', icon: '📜' },
+  { code: 'BPEN', name: 'Bahagian Perancang Ekonomi Negeri (BPEN)' },
+  { code: 'BPSM', name: 'Bahagian Pengurusan Sumber Manusia (BPSM)' },
+  { code: 'BTMKN', name: 'Bahagian Teknologi Maklumat Dan Komunikasi Negeri (BTMKN)' },
+  { code: 'UAD', name: 'Unit Audit Dalam (UAD)' },
+  { code: 'BKP', name: 'Bahagian Khidmat Pengurusan (BKP)' },
+  { code: 'DUN', name: 'Dewan Undangan Negeri (DUN)' },
+  { code: 'BKT', name: 'Bahagian Kerajaan Tempatan (BKT)' },
+  { code: 'BPMP', name: 'Bahagian Pengurusan Majlis Dan Protokol (BPMP)' },
+  { code: 'MSNPP', name: 'Majlis Sukan Negeri Pulau Pinang (MSNPP)' },
+  { code: 'BKSA', name: 'Bahagian Kawal Selia Air (BKSA)' },
+  { code: 'UKKI', name: 'Unit Komunikasi Korporat & Inovasi (UKKI)' },
+  { code: 'UI', name: 'Unit Integriti (UI)' },
+  { code: 'UPB', name: 'Unit Pengurusan Bencana (UPB)' },
+  { code: 'PPW', name: 'Pejabat Pesuruhjaya Warisan (PPW)' },
 ];
 
 // --- DATA INITIAL UNTUK 14 BAHAGIAN ---
@@ -291,7 +291,6 @@ export default function PSUKPPPage() {
     };
   }, []);
 
-  // KUNCI BAHAGIAN AUTOMATIK BILA LOG MASUK BAHAGIAN KHUSUS
   const loggedInBahagianCode = useMemo(() => {
     if (userRole.startsWith('ADMIN_') && userRole !== 'SUPER_ADMIN') {
       return userRole.replace('ADMIN_', '');
@@ -329,7 +328,7 @@ export default function PSUKPPPage() {
       const foundBahagian = BAHAGIAN_LIST.find(b => `admin_${b.code.toLowerCase()}` === loginUsername.toLowerCase());
       if (foundBahagian && loginPassword === 'admin123') {
         setUserRole(`ADMIN_${foundBahagian.code}`);
-        setSelectedBahagian(foundBahagian.code); // Autoselektif bahagian berkenaan
+        setSelectedBahagian(foundBahagian.code);
         setShowLoginModal(false);
         setLoginError('');
         setLoginUsername(''); setLoginPassword('');
@@ -476,7 +475,7 @@ export default function PSUKPPPage() {
       darkMode ? 'bg-slate-900 text-slate-100' : 'bg-slate-100 text-slate-900'
     }`}>
       
-      {/* HEADER UTAMA BERSAMA EMBEDDED JATA PULAU PINANG */}
+      {/* HEADER UTAMA */}
       <header className={`${
         darkMode ? 'bg-slate-800 border-slate-700' : 'bg-blue-900 border-blue-950'
       } text-white border-b sticky top-0 z-30 shadow-md`}>
@@ -506,7 +505,7 @@ export default function PSUKPPPage() {
               className="px-3 py-1.5 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition shadow-sm"
               title="Eksport CSV"
             >
-              📥 Eksport CSV
+              Eksport CSV
             </button>
 
             <button
@@ -514,7 +513,7 @@ export default function PSUKPPPage() {
               className="px-3 py-1.5 text-xs font-bold rounded-lg bg-blue-800 hover:bg-blue-700 text-white transition shadow-sm border border-blue-700"
               title="Cetak Laporan"
             >
-              🖨️ Cetak
+              Cetak
             </button>
 
             <div className={`px-3 py-1.5 rounded-lg border font-semibold text-xs flex items-center space-x-2 ${
@@ -522,7 +521,7 @@ export default function PSUKPPPage() {
                 ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-sm' 
                 : 'bg-blue-800 text-slate-100 border-blue-700'
             }`}>
-              <span>{userRole === 'PUBLIC' ? '👤 Mod: Awam' : `🔒 ${userRole}`}</span>
+              <span>{userRole === 'PUBLIC' ? 'Mod Awam' : userRole}</span>
             </div>
 
             {userRole !== 'PUBLIC' ? (
@@ -543,9 +542,9 @@ export default function PSUKPPPage() {
 
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className="p-2 rounded-lg bg-blue-800 text-white hover:bg-blue-700 transition text-sm border border-blue-700"
+              className="p-2 rounded-lg bg-blue-800 text-white hover:bg-blue-700 transition text-sm border border-blue-700 font-bold"
             >
-              {darkMode ? '☀️ Light' : '🌙 Dark'}
+              {darkMode ? 'Light' : 'Dark'}
             </button>
           </div>
         </div>
@@ -556,26 +555,25 @@ export default function PSUKPPPage() {
 
         {loading ? (
           <div className="p-12 text-center text-slate-500 font-bold">
-            🔄 Memuatkan pangkalan data Firebase Firestore...
+            Memuatkan pangkalan data Firebase Firestore...
           </div>
         ) : (
           <>
-            {/* TAB SELEKSI 14 BAHAGIAN HANYA DIPAPARKAN JIKA TIDAK LOG MASUK BAHAGIAN KHUSUS */}
+            {/* TAB SELEKSI BAHAGIAN (DIPAPAR HANYA APABILA BUKAN LOG MASUK BAHAGIAN KHUSUS) */}
             {!loggedInBahagianCode && (
               <section className={`p-4 rounded-xl border shadow-sm ${
                 darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
               }`}>
                 <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
-                  <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-blue-900 dark:text-blue-400">
-                    <span>🏛️</span>
-                    <span>Pilih Bahagian / Unit PSUKPP (14 Jabatan)</span>
+                  <div className="text-xs font-black uppercase tracking-wider text-blue-900 dark:text-blue-400">
+                    Pilih Bahagian / Unit PSUKPP (14 Jabatan)
                   </div>
                   {selectedBahagian !== 'ALL' && (
                     <button
                       onClick={() => setSelectedBahagian('ALL')}
                       className="text-xs font-bold text-rose-600 hover:underline"
                     >
-                      ✖ Tunjukkan Semua (14 Bahagian)
+                      Tunjukkan Semua (14 Bahagian)
                     </button>
                   )}
                 </div>
@@ -589,8 +587,7 @@ export default function PSUKPPPage() {
                         : (darkMode ? 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-700' : 'bg-slate-50 border-slate-300 text-slate-800 hover:bg-slate-200')
                     }`}
                   >
-                    <span className="block text-base">🌐</span>
-                    <span>SEMUA (14)</span>
+                    <span className="block text-xs uppercase">SEMUA (14)</span>
                   </button>
 
                   {BAHAGIAN_LIST.map((b) => {
@@ -607,9 +604,8 @@ export default function PSUKPPPage() {
                         }`}
                         title={b.name}
                       >
-                        <span className="block text-base">{b.icon}</span>
-                        <span className="truncate block">{b.code}</span>
-                        <span className="text-[10px] opacity-75">({count} KPI)</span>
+                        <span className="truncate block text-xs">{b.code}</span>
+                        <span className="text-[10px] opacity-75 font-normal">({count} KPI)</span>
                       </button>
                     );
                   })}
@@ -622,32 +618,29 @@ export default function PSUKPPPage() {
               <div className={`p-4 rounded-xl border shadow-sm flex flex-wrap justify-between items-center gap-3 ${
                 darkMode ? 'bg-slate-800 border-amber-500/40' : 'bg-amber-50 border-amber-300'
               }`}>
-                <div className="flex items-center space-x-2">
-                  <span className="text-amber-600 text-lg">⚡</span>
-                  <div>
-                    <h3 className={`text-sm font-bold ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
-                      Panel Kawalan Pentadbir ({userRole})
-                    </h3>
-                    <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-700'}`}>
-                      {loggedInBahagianCode 
-                        ? `Akses khusus dikunci untuk ${BAHAGIAN_LIST.find(b => b.code === loggedInBahagianCode)?.name}.`
-                        : 'Akses Penuh Pentadbir Super (Semua 14 Bahagian).'}
-                    </p>
-                  </div>
+                <div>
+                  <h3 className={`text-sm font-bold ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>
+                    Panel Kawalan Pentadbir ({userRole})
+                  </h3>
+                  <p className={`text-xs ${darkMode ? 'text-slate-400' : 'text-slate-700'}`}>
+                    {loggedInBahagianCode 
+                      ? `Akses khusus dikunci untuk ${BAHAGIAN_LIST.find(b => b.code === loggedInBahagianCode)?.name}.`
+                      : 'Akses Penuh Pentadbir Super (Semua 14 Bahagian).'}
+                  </p>
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={handleOpenAdd}
-                    className="px-3 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm flex items-center space-x-1"
+                    className="px-3 py-2 text-xs font-bold rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white transition shadow-sm"
                   >
-                    <span>➕ Tambah KPI</span>
+                    Tambah KPI
                   </button>
 
                   <button
                     onClick={() => setShowLogModal(true)}
                     className="px-3 py-2 text-xs font-bold rounded-lg bg-blue-900 text-white hover:bg-blue-800 transition shadow-sm"
                   >
-                    📜 Log Audit ({auditLogs.length})
+                    Log Audit ({auditLogs.length})
                   </button>
 
                   {userRole === 'SUPER_ADMIN' && (
@@ -657,7 +650,7 @@ export default function PSUKPPPage() {
                         darkMode ? 'bg-slate-700 hover:bg-slate-600 text-slate-200' : 'bg-slate-200 hover:bg-slate-300 text-slate-900'
                       }`}
                     >
-                      🔄 Reset Data Asal
+                      Reset Data Asal
                     </button>
                   )}
                 </div>
@@ -671,7 +664,6 @@ export default function PSUKPPPage() {
               }`}>
                 <div className="flex justify-between items-start">
                   <span className={`text-xs font-black uppercase tracking-wider ${darkMode ? 'text-slate-400' : 'text-slate-800'}`}>Pencapaian Purata</span>
-                  <span className="text-base">📈</span>
                 </div>
                 <div className="mt-3">
                   <div className={`text-3xl font-black ${darkMode ? 'text-blue-400' : 'text-blue-800'}`}>{stats.avgScore}%</div>
@@ -687,7 +679,6 @@ export default function PSUKPPPage() {
               }`}>
                 <div className="flex justify-between items-start">
                   <span className={`text-xs font-black uppercase tracking-wider ${darkMode ? 'text-slate-400' : 'text-slate-800'}`}>Jumlah KPI</span>
-                  <span className="text-base">🎯</span>
                 </div>
                 <div className="mt-3">
                   <div className={`text-3xl font-black ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>{stats.total}</div>
@@ -701,7 +692,6 @@ export default function PSUKPPPage() {
               }`}>
                 <div className="flex justify-between items-start">
                   <span className={`text-xs font-black uppercase tracking-wider ${darkMode ? 'text-emerald-400' : 'text-emerald-800'}`}>Mencapai Sasaran</span>
-                  <span className="text-base">✅</span>
                 </div>
                 <div className="mt-3">
                   <div className={`text-3xl font-black ${darkMode ? 'text-emerald-400' : 'text-emerald-700'}`}>{stats.hijau}</div>
@@ -710,7 +700,7 @@ export default function PSUKPPPage() {
                   </div>
                 </div>
                 <div className={`mt-3 text-xs font-black flex items-center ${darkMode ? 'text-emerald-400' : 'text-emerald-800'}`}>
-                  ● Status Hijau
+                  Status Hijau
                 </div>
               </div>
 
@@ -719,7 +709,6 @@ export default function PSUKPPPage() {
               }`}>
                 <div className="flex justify-between items-start">
                   <span className={`text-xs font-black uppercase tracking-wider ${darkMode ? 'text-amber-400' : 'text-amber-800'}`}>Dalam Perhatian</span>
-                  <span className="text-base">⚠️</span>
                 </div>
                 <div className="mt-3">
                   <div className={`text-3xl font-black ${darkMode ? 'text-amber-400' : 'text-amber-700'}`}>{stats.kuning}</div>
@@ -728,7 +717,7 @@ export default function PSUKPPPage() {
                   </div>
                 </div>
                 <div className={`mt-3 text-xs font-black flex items-center ${darkMode ? 'text-amber-400' : 'text-amber-800'}`}>
-                  ● Status Kuning
+                  Status Kuning
                 </div>
               </div>
 
@@ -737,7 +726,6 @@ export default function PSUKPPPage() {
               }`}>
                 <div className="flex justify-between items-start">
                   <span className={`text-xs font-black uppercase tracking-wider ${darkMode ? 'text-rose-400' : 'text-rose-800'}`}>Lewat / Merah</span>
-                  <span className="text-base">❌</span>
                 </div>
                 <div className="mt-3">
                   <div className={`text-3xl font-black ${darkMode ? 'text-rose-400' : 'text-rose-700'}`}>{stats.merah}</div>
@@ -746,7 +734,7 @@ export default function PSUKPPPage() {
                   </div>
                 </div>
                 <div className={`mt-3 text-xs font-black flex items-center ${darkMode ? 'text-rose-400' : 'text-rose-800'}`}>
-                  ● Perlu Tindakan
+                  Perlu Tindakan
                 </div>
               </div>
             </section>
@@ -756,15 +744,14 @@ export default function PSUKPPPage() {
               darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
             }`}>
               <div className="flex items-center justify-between mb-3 pb-2 border-b border-slate-200">
-                <div className={`flex items-center space-x-2 text-sm font-black ${darkMode ? 'text-slate-200' : 'text-slate-900'}`}>
-                  <span>🔍</span>
-                  <span>Carian & Tapisan Data</span>
+                <div className={`text-sm font-black ${darkMode ? 'text-slate-200' : 'text-slate-900'}`}>
+                  Carian & Tapisan Data
                 </div>
                 <button
                   onClick={() => { setSelectedTeras('ALL'); if (!loggedInBahagianCode) setSelectedBahagian('ALL'); setSelectedStatus('ALL'); setSearchTerm(''); }}
                   className={`text-xs font-black transition ${darkMode ? 'text-blue-400' : 'text-blue-800'}`}
                 >
-                  🔄 Reset Tapisan
+                  Reset Tapisan
                 </button>
               </div>
 
@@ -834,9 +821,9 @@ export default function PSUKPPPage() {
                     }`}
                   >
                     <option value="ALL">Semua Status (Hijau/Kuning/Merah)</option>
-                    <option value="hijau">🟢 Hijau (Mencapai Sasaran)</option>
-                    <option value="kuning">🟡 Kuning (Perlu Perhatian)</option>
-                    <option value="merah">🔴 Merah (Tingkat Usaha)</option>
+                    <option value="hijau">Hijau (Mencapai Sasaran)</option>
+                    <option value="kuning">Kuning (Perlu Perhatian)</option>
+                    <option value="merah">Merah (Tingkat Usaha)</option>
                   </select>
                 </div>
               </div>
@@ -848,7 +835,6 @@ export default function PSUKPPPage() {
                 darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
               }`}>
                 <div className="flex items-center space-x-2 mb-4">
-                  <span>📊</span>
                   <h2 className={`text-xs font-black tracking-wider uppercase ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>Taburan Status KPI (Carta Pie)</h2>
                 </div>
 
@@ -926,10 +912,7 @@ export default function PSUKPPPage() {
                 darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
               }`}>
                 <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center space-x-2">
-                    <span>📉</span>
-                    <h2 className={`text-xs font-black tracking-wider uppercase ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>Trend Suku Tahun (Q1-Q4)</h2>
-                  </div>
+                  <h2 className={`text-xs font-black tracking-wider uppercase ${darkMode ? 'text-slate-100' : 'text-slate-900'}`}>Trend Suku Tahun (Q1-Q4)</h2>
                   <span className="text-[11px] bg-blue-900 text-white px-2 py-0.5 rounded font-black">Purata %</span>
                 </div>
 
@@ -968,10 +951,7 @@ export default function PSUKPPPage() {
               darkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-300'
             }`}>
               <div className="p-4 bg-slate-900 text-white flex flex-wrap justify-between items-center gap-2">
-                <div className="flex items-center space-x-2">
-                  <span>📋</span>
-                  <h2 className="text-xs font-black tracking-wider uppercase text-white">SENARAI STATUS INISIATIF & KPI PSO</h2>
-                </div>
+                <h2 className="text-xs font-black tracking-wider uppercase text-white">SENARAI STATUS INISIATIF & KPI PSO</h2>
                 <span className="text-xs font-bold text-slate-200">
                   Menunjukkan <strong>{filteredData.length}</strong> daripada <strong>{kpiList.length}</strong> rekod
                 </span>
@@ -1063,7 +1043,7 @@ export default function PSUKPPPage() {
                                     onClick={() => setSelectedKpiDetail(isExpanded ? null : item)}
                                     className="px-3 py-1 text-[11px] font-black rounded transition shadow-xs bg-blue-900 text-white hover:bg-blue-800"
                                   >
-                                    {isExpanded ? '✖ Tutup' : 'ℹ️ Detail'}
+                                    {isExpanded ? 'Tutup' : 'Detail'}
                                   </button>
 
                                   {canEdit && (
@@ -1073,14 +1053,14 @@ export default function PSUKPPPage() {
                                         className="px-2 py-1 text-[11px] font-bold bg-amber-400 hover:bg-amber-500 text-slate-950 rounded transition shadow-xs"
                                         title="Edit KPI"
                                       >
-                                        ✏️
+                                        Edit
                                       </button>
                                       <button
                                         onClick={() => handleDelete(item.id)}
                                         className="px-2 py-1 text-[11px] font-bold bg-rose-600 hover:bg-rose-700 text-white rounded transition shadow-xs"
                                         title="Padam KPI"
                                       >
-                                        🗑️
+                                        Padam
                                       </button>
                                     </>
                                   )}
@@ -1105,7 +1085,7 @@ export default function PSUKPPPage() {
                                         onClick={() => setSelectedKpiDetail(null)}
                                         className="text-slate-900 font-black text-xs px-2"
                                       >
-                                        ✕ Tutup
+                                        Tutup
                                       </button>
                                     </div>
 
@@ -1128,16 +1108,14 @@ export default function PSUKPPPage() {
                                           item.status === 'hijau' ? 'text-emerald-400' :
                                           item.status === 'kuning' ? 'text-amber-400' : 'text-rose-400'
                                         }`}>
-                                          ● STATUS {item.status}
+                                          STATUS {item.status}
                                         </span>
                                       </div>
                                     </div>
 
                                     {(item.status === 'merah' || item.status === 'kuning' || item.sebabKelewatan) && (
                                       <div className="my-3 p-3 rounded-lg bg-rose-50 border border-rose-200 text-slate-900 text-xs space-y-2">
-                                        <h4 className="font-extrabold text-rose-800 flex items-center space-x-1">
-                                          <span>⚠️</span> <span>PENGURUSAN RISIKO & INTERVENSI</span>
-                                        </h4>
+                                        <h4 className="font-extrabold text-rose-800">PENGURUSAN RISIKO & INTERVENSI</h4>
                                         <div>
                                           <strong>Sebab Kelewatan:</strong> {item.sebabKelewatan || 'Tiada rekod kelewatan dikemukakan.'}
                                         </div>
@@ -1185,7 +1163,7 @@ export default function PSUKPPPage() {
             darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-white border-slate-300 text-slate-900'
           }`}>
             <div className="flex justify-between items-center pb-3 border-b border-slate-200">
-              <h3 className="text-base font-black">📜 Log Audit & Sejarah Kemaskini (Firebase)</h3>
+              <h3 className="text-base font-black">Log Audit & Sejarah Kemaskini (Firebase)</h3>
               <button onClick={() => setShowLogModal(false)} className="text-slate-500 font-bold">✕</button>
             </div>
 
@@ -1194,7 +1172,7 @@ export default function PSUKPPPage() {
                 auditLogs.map((log) => (
                   <div key={log.id} className="p-3 rounded-lg border border-slate-200 bg-slate-50 dark:bg-slate-900 dark:border-slate-700">
                     <div className="flex justify-between font-bold text-blue-900 dark:text-blue-400">
-                      <span>👤 {log.pengguna}</span>
+                      <span>{log.pengguna}</span>
                       <span className="text-[10px] text-slate-500">{log.tarikh}</span>
                     </div>
                     <p className="mt-1 font-semibold">{log.tindakan}</p>
@@ -1215,7 +1193,7 @@ export default function PSUKPPPage() {
             darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-white border-slate-300 text-slate-900'
           }`}>
             <div className="flex justify-between items-center pb-3 border-b border-slate-200">
-              <h3 className="text-base font-black">🔒 Log Masuk Pentadbir (Admin Bahagian)</h3>
+              <h3 className="text-base font-black">Log Masuk Pentadbir (Admin Bahagian)</h3>
               <button onClick={() => setShowLoginModal(false)} className="text-slate-500 font-bold">✕</button>
             </div>
 
@@ -1251,8 +1229,8 @@ export default function PSUKPPPage() {
               </div>
 
               <div className="p-2.5 rounded-lg bg-blue-50 text-[11px] text-blue-950 border border-blue-200 font-bold space-y-1">
-                <div>🔑 <strong>Super Admin:</strong> admin / admin123</div>
-                <div>🔑 <strong>Admin Bahagian:</strong> admin_&lt;kod_bahagian&gt; / admin123</div>
+                <div><strong>Super Admin:</strong> admin / admin123</div>
+                <div><strong>Admin Bahagian:</strong> admin_&lt;kod_bahagian&gt; / admin123</div>
                 <div className="text-[10px] text-slate-600 font-normal mt-1">(Contoh: admin_bpen, admin_bpsm, admin_btmkn, admin_uad, admin_bkp, dll.)</div>
               </div>
 
@@ -1284,7 +1262,7 @@ export default function PSUKPPPage() {
           }`}>
             <div className="flex justify-between items-center pb-3 border-b border-slate-200">
               <h3 className="text-base font-black">
-                {editingKpi ? `✏️ Sunting KPI (${formData.id})` : '➕ Tambah KPI Baharu'}
+                {editingKpi ? `Sunting KPI (${formData.id})` : 'Tambah KPI Baharu'}
               </h3>
               <button onClick={() => setShowFormModal(false)} className="text-slate-500 font-bold">✕</button>
             </div>
@@ -1364,15 +1342,15 @@ export default function PSUKPPPage() {
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                     className="w-full px-3 py-2 rounded-lg border font-bold bg-slate-50 border-slate-400 text-slate-900"
                   >
-                    <option value="hijau">🟢 Hijau (Mencapai)</option>
-                    <option value="kuning">🟡 Kuning (Amaran)</option>
-                    <option value="merah">🔴 Merah (Lewat)</option>
+                    <option value="hijau">Hijau (Mencapai)</option>
+                    <option value="kuning">Kuning (Amaran)</option>
+                    <option value="merah">Merah (Lewat)</option>
                   </select>
                 </div>
               </div>
 
               <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-slate-900 space-y-3">
-                <h4 className="font-bold text-amber-900">⚠️ Pengurusan Intervensi & Risiko (Jika Merah/Kuning)</h4>
+                <h4 className="font-bold text-amber-900">Pengurusan Intervensi & Risiko (Jika Merah/Kuning)</h4>
                 <div>
                   <label className="block font-bold mb-1">Sebab Kelewatan</label>
                   <input
