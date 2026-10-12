@@ -111,9 +111,7 @@ const dict = {
     addKpi: 'Tambah KPI',
     auditLog: 'Log Audit',
     resetDefault: 'Reset Data',
-    noRecord: 'Tiada rekod KPI ditemui.',
-    targetRatio: 'daripada jumlah',
-    changePass: 'Tukar Pass'
+    noRecord: 'Tiada rekod KPI ditemui.'
   },
   en: {
     title: 'ORGANIZATIONAL STRATEGIC PLAN (PSO) DASHBOARD 2026-2030',
@@ -144,9 +142,7 @@ const dict = {
     addKpi: 'Add KPI',
     auditLog: 'Audit Log',
     resetDefault: 'Reset Data',
-    noRecord: 'No KPI records found.',
-    targetRatio: 'of total',
-    changePass: 'Change Pass'
+    noRecord: 'No KPI records found.'
   }
 };
 
@@ -368,37 +364,23 @@ export default function PSUKPPPage() {
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col font-sans text-slate-800">
       
-      {/* HEADER UTAMA BERSAMA LOGO JATA & PENANG 2030 */}
-      <header className="bg-[#0f2042] text-white px-4 py-2.5 flex items-center justify-between shadow-md border-b-2 border-amber-400">
-        <div className="flex items-center space-x-3">
-          {/* Logo Jata Pulau Pinang */}
-          <div className="w-10 h-10 flex items-center justify-center bg-white p-0.5 rounded border border-amber-400">
-            <svg viewBox="0 0 100 130" className="w-full h-full">
-              <path d="M50,10 L50,40 M42,20 L58,20 M40,28 L60,28" stroke="#008000" strokeWidth="4" strokeLinecap="round"/>
-              <circle cx="50" cy="8" r="4" fill="#008000"/>
-              <path d="M10,40 L90,40 L90,90 Q50,120 10,90 Z" fill="#FFCC00" stroke="#000000" strokeWidth="3"/>
-              <path d="M20,65 L80,65 M35,45 L35,65 M65,45 L65,65 M35,45 L50,65 L65,45" stroke="#000000" strokeWidth="2.5" fill="none"/>
-              <path d="M10,75 Q30,70 50,75 T90,75 M10,83 Q30,78 50,83 T90,83 M10,91 Q30,86 50,91 T90,91" stroke="#0088CC" strokeWidth="3" fill="none"/>
-              <path d="M5,110 Q50,125 95,110 L90,120 Q50,130 10,120 Z" fill="#FFCC00" stroke="#000000" strokeWidth="1.5"/>
-            </svg>
+      {/* HEADER UTAMA: PEJABAT SETIAUSAHA KERAJAAN NEGERI PULAU PINANG (KUNING), EN (KUNING), LOG MASUK ADMIN (KUNING) */}
+      <header className="bg-[#0f2042] text-white px-4 py-3 flex items-center justify-between shadow-md border-b-2 border-amber-400">
+        <div>
+          <div className="text-xs font-extrabold text-amber-400 tracking-wider uppercase">
+            {t.subtitle}
           </div>
-
-          <div>
-            <div className="text-[10px] font-extrabold text-amber-400 tracking-wider uppercase">
-              {t.subtitle}
-            </div>
-            <h1 className="text-base sm:text-lg font-black tracking-wide text-white uppercase">
-              {t.title}
-            </h1>
-          </div>
+          <h1 className="text-base sm:text-xl font-black tracking-wide text-white uppercase mt-0.5">
+            {t.title}
+          </h1>
         </div>
 
-        {/* ALATAN HEADER (TAHUN, CARIAN, USER, PENANG 2030) */}
+        {/* ALATAN HEADER (TAHUN, EN, LOG MASUK ADMIN WANRA KUNING) */}
         <div className="flex items-center space-x-3">
           <select 
             value={selectedYear} 
             onChange={(e) => setSelectedYear(e.target.value)}
-            className="bg-[#1a2f58] text-white text-xs px-2.5 py-1 rounded border border-slate-600 outline-none font-bold"
+            className="bg-[#1a2f58] text-white text-xs px-2.5 py-1.5 rounded border border-slate-600 outline-none font-bold"
           >
             <option value="2026">2026</option>
             <option value="2027">2027</option>
@@ -407,28 +389,30 @@ export default function PSUKPPPage() {
             <option value="2030">2030</option>
           </select>
 
+          {/* BUTTON EN / BM KUNING */}
           <button 
             onClick={() => setLang(lang === 'bm' ? 'en' : 'bm')}
-            className="bg-amber-400 text-[#0f2042] font-black text-[10px] px-2 py-1 rounded tracking-wider uppercase"
+            className="bg-amber-400 text-slate-950 font-black text-xs px-2.5 py-1.5 rounded tracking-wider uppercase shadow-xs hover:bg-amber-300 transition"
           >
             {lang === 'bm' ? 'EN' : 'BM'}
           </button>
 
+          {/* BUTTON LOG MASUK ADMIN / LOG KELUAR KUNING */}
           {userRole !== 'PUBLIC' ? (
-            <button onClick={handleLogout} className="bg-rose-600 text-white font-bold text-xs px-2.5 py-1 rounded">
-              {t.logOut}
+            <button 
+              onClick={handleLogout} 
+              className="bg-rose-600 text-white font-extrabold text-xs px-3 py-1.5 rounded shadow-xs"
+            >
+              {t.logOut} ({userRole})
             </button>
           ) : (
-            <button onClick={() => setShowLoginModal(true)} className="bg-amber-400 text-slate-950 font-bold text-xs px-2.5 py-1 rounded">
+            <button 
+              onClick={() => setShowLoginModal(true)} 
+              className="bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs px-3.5 py-1.5 rounded transition tracking-wide shadow-xs"
+            >
               {t.logIn}
             </button>
           )}
-
-          {/* Logo Penang 2030 Style Icon */}
-          <div className="hidden md:flex flex-col items-end leading-none border-l border-slate-700 pl-3">
-            <span className="text-xs font-black tracking-widest text-slate-300">PENANG</span>
-            <span className="text-base font-black text-amber-400">2030</span>
-          </div>
         </div>
       </header>
 
