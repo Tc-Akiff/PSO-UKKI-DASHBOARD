@@ -12,6 +12,7 @@ import {
   addDoc 
 } from 'firebase/firestore';
 
+// --- SENARAI 14 BAHAGIAN & UNIT PSUKPP ---
 const BAHAGIAN_LIST = [
   { code: 'BPEN', name: 'Bahagian Perancang Ekonomi Negeri' },
   { code: 'BPSM', name: 'Bahagian Pengurusan Sumber Manusia' },
@@ -31,7 +32,7 @@ const BAHAGIAN_LIST = [
 
 const defaultKpiData = [
   {
-    id: 'KPI-BTMKN-01',
+    id: 'KPI-BTM-01',
     terasId: 'T1',
     terasName: 'TERAS 1: MEMANTAPKAN TATA KELOLA & PENYAMPAIAN PERKHIDMATAN',
     terasNameEn: 'PILLAR 1: STRENGTHENING GOVERNANCE & SERVICE DELIVERY',
@@ -102,6 +103,8 @@ const dict = {
     allPillars: 'Semua Teras',
     target: 'Sasaran',
     currentScore: 'Pencapaian semasa',
+    exportCsv: 'Eksport Excel (CSV)',
+    exportPdf: 'Cetak / Simpan PDF',
     logIn: 'Log Masuk Admin',
     logOut: 'Log Keluar',
     addKpi: 'Tambah KPI',
@@ -129,6 +132,8 @@ const dict = {
     allPillars: 'All Pillars',
     target: 'Target',
     currentScore: 'Current Score',
+    exportCsv: 'Export Excel (CSV)',
+    exportPdf: 'Print / Save PDF',
     logIn: 'Admin Login',
     logOut: 'Logout',
     addKpi: 'Add KPI',
@@ -315,6 +320,20 @@ export default function PSUKPPPage() {
     setShowFormModal(true);
   };
 
+  const handleExportCSV = () => {
+    const headers = ['ID,Teras,Tajuk,Bahagian,Sasaran,Pencapaian,Status,Q1,Q2,Q3,Q4,Sebab Kelewatan,Pelan Intervensi\n'];
+    const rows = filteredData.map(d => 
+      `"${d.id}","${d.terasId}","${d.title}","${d.bahagian}",${d.sasaran},${d.pencapaian},"${d.status}",${d.q1},${d.q2},${d.q3},${d.q4},"${d.sebabKelewatan || ''}","${d.pelanIntervensi || ''}"`
+    ).join('\n');
+    
+    const blob = new Blob([headers + rows], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Laporan_PSO_PSUKPP_${Date.now()}.csv`;
+    a.click();
+  };
+
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -408,16 +427,23 @@ export default function PSUKPPPage() {
         {/* KANDUNGAN UTAMA */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
 
+          {/* BAR KAWALAN ADMIN (BERSAMA BUTANG EKSPORT EXCEL & CETAK PDF) */}
           {userRole !== 'PUBLIC' && (
-            <div className="p-3 bg-amber-50 rounded border border-amber-300 flex justify-between items-center text-xs">
+            <div className="p-3 bg-amber-50 rounded border border-amber-300 flex justify-between items-center text-xs flex-wrap gap-2">
               <span className="font-bold text-slate-900">
                 Sesi Pentadbir Aktif: <strong>{userRole}</strong>
               </span>
-              <div className="space-x-2">
-                <button onClick={handleOpenAdd} className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded shadow-xs">
+              <div className="space-x-2 flex items-center">
+                <button onClick={handleExportCSV} className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded shadow-xs">
+                  📥 {t.exportCsv}
+                </button>
+                <button onClick={() => window.print()} className="px-3 py-1.5 bg-blue-800 hover:bg-blue-900 text-white font-bold rounded shadow-xs">
+                  🖨️ {t.exportPdf}
+                </button>
+                <button onClick={handleOpenAdd} className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded shadow-xs">
                   + {t.addKpi}
                 </button>
-                <button onClick={() => setShowLogModal(true)} className="px-3.5 py-1.5 bg-[#0f2042] hover:bg-slate-800 text-white font-bold rounded shadow-xs">
+                <button onClick={() => setShowLogModal(true)} className="px-3 py-1.5 bg-[#0f2042] hover:bg-slate-800 text-white font-bold rounded shadow-xs">
                   {t.auditLog} ({auditLogs.length})
                 </button>
               </div>
