@@ -364,7 +364,7 @@ export default function PSUKPPPage() {
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col font-sans text-slate-800">
       
-      {/* HEADER UTAMA: PEJABAT SETIAUSAHA KERAJAAN NEGERI PULAU PINANG (KUNING), EN (KUNING), LOG MASUK ADMIN (KUNING) */}
+      {/* HEADER UTAMA */}
       <header className="bg-[#0f2042] text-white px-4 py-3 flex items-center justify-between shadow-md border-b-2 border-amber-400">
         <div>
           <div className="text-xs font-extrabold text-amber-400 tracking-wider uppercase">
@@ -375,7 +375,7 @@ export default function PSUKPPPage() {
           </h1>
         </div>
 
-        {/* ALATAN HEADER (TAHUN, EN, LOG MASUK ADMIN WANRA KUNING) */}
+        {/* ALATAN HEADER */}
         <div className="flex items-center space-x-3">
           <select 
             value={selectedYear} 
@@ -389,7 +389,6 @@ export default function PSUKPPPage() {
             <option value="2030">2030</option>
           </select>
 
-          {/* BUTTON EN / BM KUNING */}
           <button 
             onClick={() => setLang(lang === 'bm' ? 'en' : 'bm')}
             className="bg-amber-400 text-slate-950 font-black text-xs px-2.5 py-1.5 rounded tracking-wider uppercase shadow-xs hover:bg-amber-300 transition"
@@ -397,7 +396,6 @@ export default function PSUKPPPage() {
             {lang === 'bm' ? 'EN' : 'BM'}
           </button>
 
-          {/* BUTTON LOG MASUK ADMIN / LOG KELUAR KUNING */}
           {userRole !== 'PUBLIC' ? (
             <button 
               onClick={handleLogout} 
@@ -416,40 +414,42 @@ export default function PSUKPPPage() {
         </div>
       </header>
 
-      {/* BODY DENGAN SIDEBAR NAVIGASI KIRI */}
+      {/* BODY DENGAN SIDEBAR NAVIGASI KIRI (HANYA KEKAL UTAMA & SEMUA BAHAGIAN) */}
       <div className="flex-1 flex overflow-hidden">
         
-        {/* SIDEBAR NAVIGATION KIRI */}
+        {/* SIDEBAR NAVIGATION KIRI (HANYA 2 BUTTON SAHAJA) */}
         <aside className="w-14 bg-[#0f2042] text-slate-300 flex flex-col items-center py-4 space-y-6 border-r border-slate-800">
-          <button className="p-2 rounded bg-amber-400 text-slate-950 font-black" title="Utama">
+          <button 
+            onClick={() => setSelectedBahagian('ALL')} 
+            className="p-2 rounded bg-amber-400 text-slate-950 font-black" 
+            title="Utama"
+          >
             🏠
           </button>
-          <button onClick={() => setSelectedBahagian('ALL')} className="p-2 rounded hover:bg-[#1a2f58]" title="Semua Bahagian">
+          <button 
+            onClick={() => setSelectedBahagian('ALL')} 
+            className="p-2 rounded hover:bg-[#1a2f58]" 
+            title="Semua Bahagian"
+          >
             👥
-          </button>
-          <button onClick={handleOpenAdd} className="p-2 rounded hover:bg-[#1a2f58]" title="Tambah KPI">
-            💼
-          </button>
-          <button onClick={() => setShowLogModal(true)} className="p-2 rounded hover:bg-[#1a2f58]" title="Log Audit">
-            📜
           </button>
         </aside>
 
         {/* KANDUNGAN UTAMA / DASHBOARD BODY */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5">
 
-          {/* BAR KAWALAN ADMIN (JIKA LOG MASUK) */}
+          {/* BAR KAWALAN ADMIN (TEMPAT TAMBAH KPI & LOG AUDIT) */}
           {userRole !== 'PUBLIC' && (
             <div className="p-3 bg-amber-50 rounded border border-amber-300 flex justify-between items-center text-xs">
               <span className="font-bold text-slate-900">
                 Sesi Pentadbir Aktif: <strong>{userRole}</strong>
               </span>
               <div className="space-x-2">
-                <button onClick={handleOpenAdd} className="px-3 py-1 bg-emerald-600 text-white font-bold rounded">
+                <button onClick={handleOpenAdd} className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded shadow-xs">
                   + {t.addKpi}
                 </button>
-                <button onClick={() => setShowLogModal(true)} className="px-3 py-1 bg-[#0f2042] text-white font-bold rounded">
-                  {t.auditLog}
+                <button onClick={() => setShowLogModal(true)} className="px-3 py-1.5 bg-[#0f2042] hover:bg-slate-800 text-white font-bold rounded shadow-xs">
+                  {t.auditLog} ({auditLogs.length})
                 </button>
               </div>
             </div>
@@ -575,7 +575,7 @@ export default function PSUKPPPage() {
                             </div>
 
                             {canEdit && (
-                              <button onClick={() => handleOpenEdit(item)} className="text-xs font-bold text-amber-600 border border-amber-300 px-2 py-1 rounded">
+                              <button onClick={() => handleOpenEdit(item)} className="text-xs font-bold text-amber-600 border border-amber-300 px-2 py-1 rounded hover:bg-amber-50">
                                 Edit
                               </button>
                             )}
